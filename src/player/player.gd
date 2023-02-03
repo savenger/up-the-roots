@@ -1,16 +1,10 @@
-extends Node
+extends KinematicBody
+
+export var speed := 6.0
+export var jump_strength := 10.0
+export var gravity := 30.0
+
+var _velocity := Vector3.ZERO
+var _snap_vector := Vector3.DOWN
 
 
-# Declare member variables here. Examples:
-# var a = 2
-# var b = "text"
-
-
-# Called when the node enters the scene tree for the first time.
-func _ready():
-	pass # Replace with function body.
-
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-#func _process(delta):
-#	pass
