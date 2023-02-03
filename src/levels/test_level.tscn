@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://src/levels/test_level.gd" type="Script" id=2]
+
+[node name="TestLevel" type="Spatial"]
+script = ExtResource( 2 )
