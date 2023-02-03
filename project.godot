@@ -8,9 +8,20 @@
 
 config_version=4
 
+_global_script_classes=[ {
+"base": "Camera",
+"class": "FreeLookCamera",
+"language": "GDScript",
+"path": "res://src/levels/Camera.gd"
+} ]
+_global_script_class_icons={
+"FreeLookCamera": ""
+}
+
 [application]
 
 config/name="Up-the-roots"
+run/main_scene="res://src/levels/test_level.tscn"
 config/icon="res://assets/icon.png"
 
 [gui]
