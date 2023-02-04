@@ -80,12 +80,12 @@ func generate_building_procedural(create_collectable):
 	for s in range(height):
 		var sr = storys[randi() % len(storys)].instance()
 		sr = apply_random_rotation(sr)
-		sr.global_transform.origin.y = current_height
 		n.add_child(sr)
-		if s < height - 1:
+		sr.global_transform.origin.y = current_height
+		if s < height:
 			var stairs_instance = stairs.instance()
-			stairs_instance.global_transform.origin.y = current_height
 			n.add_child(stairs_instance)
+			stairs_instance.global_transform.origin.y = current_height
 		current_height += STORY_HEIGHT
 	var stairs_roof_instance = stairs_roof.instance()
 	stairs_roof_instance.transform.origin.y = current_height
