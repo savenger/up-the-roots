@@ -11,10 +11,10 @@ export var jump_acc := 4.0
 export var gravity := 300.0
 export var max_jump_time := 0.3
 
-var is_jumping = false
+var is_jumping: bool = false
 var jump_timer = 0
-var root_area_count = 0
-var onfloor: bool = false
+var root_area_count: int = 0
+var floor_area_count: int = 0
 
 signal debug_output
 
@@ -41,9 +41,9 @@ func _physics_process(delta):
 	if root_travel:
 		move_vector.y = (Input.get_action_strength("jump") - Input.get_action_strength("run")) * root_travel_speed
 	else:
-		if not onfloor:
+		if not is_on_floor():
 			_velocity.y -= gravity * delta
-	var jump_now := onfloor and Input.is_action_just_pressed("jump")
+	var jump_now := floor_area_count > 0 and Input.is_action_just_pressed("jump")
 	if jump_now:
 		is_jumping = true
 		jump_timer = max_jump_time
@@ -73,9 +73,9 @@ func _on_Sphere_body_exited(body: StaticBody):
 func _on_AreaUnder_body_entered(body):
 	if body:
 		if body.get_class() == "StaticBody":
-			onfloor = true
+			floor_area_count += 1
 
 func _on_AreaUnder_body_exited(body):
 	if body:
 		if body.get_class() == "StaticBody":
-			onfloor = false
+			floor_area_count -= 1

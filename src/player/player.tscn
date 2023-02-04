@@ -40,7 +40,7 @@ shape = SubResource( 1 )
 [node name="AreaUnder" type="Area" parent="."]
 
 [node name="CollisionShape" type="CollisionShape" parent="AreaUnder"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1.54002, 0 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1.42399, 0 )
 shape = SubResource( 3 )
 
 [connection signal="body_entered" from="Sphere" to="." method="_on_Sphere_body_entered"]
