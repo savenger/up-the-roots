@@ -55,7 +55,7 @@ func tiles_present_in_chunk(chunk_position):
 	return false
 
 
-func generate_collectable():	
+func generate_collectable():
 	var c = collectables[randi() % len(collectables)].instance()
 	var r = rng.randi() % 3
 	c.size = r
@@ -154,6 +154,7 @@ func generate_tiles_in_chunk(chunk_position):
 			t.global_transform.origin.x = chunk_position.x * CHUNK_SIZE * TILE_SIZE + x * TILE_SIZE - TILE_SIZE / 2
 			t.global_transform.origin.z = chunk_position.y * CHUNK_SIZE * TILE_SIZE + z * TILE_SIZE - TILE_SIZE / 2
 			if create_collectable:
+				LevelData.collectable_locations.append(Vector2(t.global_transform.origin.x, t.global_transform.origin.z))
 				print("collectable is here: %s, %s" % [str(t.global_transform.origin.x), str(t.global_transform.origin.z)])
 			#if x == 0 and z == 0:
 			#	print("that is: %s, %s" % [str(t.global_transform.origin.x), str(t.global_transform.origin.z)])
