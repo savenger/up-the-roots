@@ -18,6 +18,9 @@ var stairs = preload("res://src/levels/Stairs.tscn")
 var tiles = [
 	preload("res://src/levels/city_building.tscn")
 ]
+var parks = [
+	preload("res://src/levels/building_ground.tscn")
+]
 var windows = [
 	preload("res://src/levels/Windows.tscn"),
 ]
@@ -105,7 +108,6 @@ func generate_building_procedural(create_collectable):
 
 
 func generate_building(create_collectable: bool):
-	# TODO generate building from separate storys and floors
 	var use_static = (rng.randf_range(0, 10.0) <= 1.0)
 	if use_static:
 		return tiles[randi() % len(tiles)].instance()
@@ -114,7 +116,7 @@ func generate_building(create_collectable: bool):
 
 func generate_park():
 	# TODO: generate park
-	return tiles[randi() % len(tiles)].instance()
+	return parks[randi() % len(parks)].instance()
 
 
 func apply_random_rotation(o):
@@ -135,8 +137,7 @@ func get_random_tile(create_collectable: bool):
 	if r <= 1.0:
 		t = generate_building(create_collectable)
 	else:
-		t = generate_building(create_collectable)
-		#t = generate_park()
+		t = generate_park()
 	
 	t = apply_random_rotation(t)
 	return t

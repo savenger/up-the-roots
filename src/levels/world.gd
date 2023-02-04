@@ -31,10 +31,10 @@ func pos_to_chunk_pos(position):
 func get_nearest_collectable(player_pos):
 	var dist = 999999
 	var nearest = null
-	for vec in LevelData.collectable_locations:
-		if player_pos - vec < dist:
-			nearest = vec
-			dist = player_pos - vec
+	#for vec in LevelData.collectable_locations:
+	#	if Vector2(player_pos.x, player_pos.z) - vec < dist:
+	#		nearest = vec
+	#		dist = player_pos - vec
 	return nearest
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.

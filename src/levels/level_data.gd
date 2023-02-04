@@ -1,3 +1,3 @@
 extends Node
 var map = {}
-var collectable_locations = {}
+var collectable_locations = []
