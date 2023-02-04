@@ -1,7 +1,5 @@
 class_name LevelGeneration extends Node
 
-const CHUNK_SIZE = 4
-const TILE_SIZE = 128
 const STORY_HEIGHT = 16
 const FUNDAMENT_HEIGHT = 3.66
 var collectable_count = {
@@ -146,14 +144,14 @@ func get_random_tile(create_collectable: bool):
 func generate_tiles_in_chunk(chunk_position):
 	#print("generate_tiles_in_chunk (x: %s, y: %s)" % [str(chunk_position.x), str(chunk_position.y)])
 	# generate chunks around in 1 "chunk radius" (1 chunk = 100 x 100m)
-	var r = rng.randi() % (CHUNK_SIZE * CHUNK_SIZE)
-	for x in range(CHUNK_SIZE):
-		for z in range(CHUNK_SIZE):
-			var create_collectable = (x * CHUNK_SIZE) + z == int(r)
+	var r = rng.randi() % (LevelData.CHUNK_SIZE * LevelData.CHUNK_SIZE)
+	for x in range(LevelData.CHUNK_SIZE):
+		for z in range(LevelData.CHUNK_SIZE):
+			var create_collectable = (x * LevelData.CHUNK_SIZE) + z == int(r)
 			var t = get_random_tile(create_collectable)
 			add_child(t)
-			t.global_transform.origin.x = chunk_position.x * CHUNK_SIZE * TILE_SIZE + x * TILE_SIZE - TILE_SIZE / 2
-			t.global_transform.origin.z = chunk_position.y * CHUNK_SIZE * TILE_SIZE + z * TILE_SIZE - TILE_SIZE / 2
+			t.global_transform.origin.x = chunk_position.x * LevelData.CHUNK_SIZE * LevelData.TILE_SIZE + x * LevelData.TILE_SIZE - LevelData.TILE_SIZE / 2
+			t.global_transform.origin.z = chunk_position.y * LevelData.CHUNK_SIZE * LevelData.TILE_SIZE + z * LevelData.TILE_SIZE - LevelData.TILE_SIZE / 2
 			if create_collectable:
 				LevelData.collectable_locations.append(Vector2(t.global_transform.origin.x, t.global_transform.origin.z))
 				print("collectable is here: %s, %s" % [str(t.global_transform.origin.x), str(t.global_transform.origin.z)])
