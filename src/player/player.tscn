@@ -26,3 +26,14 @@ script = ExtResource( 2 )
 
 [node name="Camera" type="Camera" parent="CameraJoint"]
 far = 7443.2
+
+[node name="Sphere" type="Area" parent="."]
+collision_layer = 2
+collision_mask = 2
+
+[node name="CollisionShape" type="CollisionShape" parent="Sphere"]
+transform = Transform( 1.5, 0, 0, 0, -6.55671e-08, -1.5, 0, 1.5, -6.55671e-08, 0, 0, 0 )
+shape = SubResource( 1 )
+
+[connection signal="area_entered" from="Sphere" to="." method="_on_Sphere_area_entered"]
+[connection signal="area_exited" from="Sphere" to="." method="_on_Sphere_area_exited"]
