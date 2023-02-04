@@ -34,3 +34,4 @@ func _process(delta):
 	if chunk_pos.x != current_player_chunk_pos.x or chunk_pos.y != current_player_chunk_pos.y:
 		current_player_chunk_pos = chunk_pos
 		$level_generator.generate_tiles(chunk_pos)
+	$SunLight.rotate(Vector3.BACK, 1 * -delta * 0.05)

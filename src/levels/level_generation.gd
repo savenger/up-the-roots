@@ -18,6 +18,12 @@ var stairs = preload("res://src/levels/Stairs.tscn")
 var tiles = [
 	preload("res://src/levels/city_building.tscn")
 ]
+var windows = [
+	preload("res://src/levels/Office.tscn"),
+	preload("res://src/levels/OfficeBottomDamaged.tscn"),
+	preload("res://src/levels/OfficeSideDamaged.tscn"),
+	preload("res://src/levels/OfficeTopDamaged.tscn")
+]
 var storys = [
 	preload("res://src/levels/Office.tscn"),
 	preload("res://src/levels/OfficeBottomDamaged.tscn"),
@@ -65,14 +71,18 @@ func generate_building_procedural(create_collectable):
 	var n = StaticBody.new()
 	n.add_child(building_ground.instance())
 	var inst = building_entrance.instance()
-	inst.global_transform.origin.y = FUNDAMENT_HEIGHT
 	n.add_child(inst)
+	inst.transform.origin.y = FUNDAMENT_HEIGHT
+	var wd = windows[randi() % len(storys)].instance()
+	wd = apply_random_rotation(wd)
+	n.add_child(wd)
+	wd.transform.origin.y = FUNDAMENT_HEIGHT
 	inst = stairs_entrance.instance()
-	inst.global_transform.origin.y = FUNDAMENT_HEIGHT
+	inst.transform.origin.y = FUNDAMENT_HEIGHT
 	n.add_child(inst)
 	if create_collectable:
 		var c = generate_collectable()
-		c.global_transform.origin.y = 10
+		c.transform.origin.y = 10
 		n.add_child(c)
 	var height = rng.randi() % 15 + 3
 	var current_height = STORY_HEIGHT + FUNDAMENT_HEIGHT
@@ -80,11 +90,15 @@ func generate_building_procedural(create_collectable):
 		var sr = storys[randi() % len(storys)].instance()
 		sr = apply_random_rotation(sr)
 		n.add_child(sr)
-		sr.global_transform.origin.y = current_height
+		sr.transform.origin.y = current_height
+		wd = windows[randi() % len(storys)].instance()
+		wd = apply_random_rotation(wd)
+		n.add_child(wd)
+		wd.transform.origin.y = current_height
 		if s < height:
 			var stairs_instance = stairs.instance()
 			n.add_child(stairs_instance)
-			stairs_instance.global_transform.origin.y = current_height
+			stairs_instance.transform.origin.y = current_height
 		current_height += STORY_HEIGHT
 	var stairs_roof_instance = stairs_roof.instance()
 	stairs_roof_instance.transform.origin.y = current_height

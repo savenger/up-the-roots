@@ -29,7 +29,13 @@ margin_right = 666.0
 margin_bottom = 412.0
 texture = ExtResource( 2 )
 
-[node name="DirectionalLight" type="DirectionalLight" parent="."]
+[node name="SunLight" type="DirectionalLight" parent="."]
 transform = Transform( -0.484459, 0.874814, 7.21899e-09, 0.150692, 0.0834508, 0.985052, 0.861738, 0.477217, -0.172256, 0, 0, 0 )
 light_color = Color( 0.964706, 0.768627, 0.596078, 1 )
 light_energy = 3.0
+shadow_enabled = true
+
+[node name="MoonLight" type="DirectionalLight" parent="SunLight"]
+transform = Transform( -1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 0, 0 )
+light_color = Color( 0.6, 0.74902, 0.823529, 1 )
+shadow_enabled = true
