@@ -10,6 +10,7 @@ export var root_travel_speed := 20.0
 export var jump_acc := 4.0
 export var gravity := 300.0
 export var max_jump_time := 0.3
+export var angular_acc := 6.0
 
 var is_jumping: bool = false
 var jump_timer = 0
@@ -21,6 +22,7 @@ signal debug_output
 var _velocity := Vector3.ZERO
 
 onready var _camera_joint: SpringArm = $CameraJoint
+onready var _model: Spatial = $model
 
 func _physics_process(delta):
 	if Input.is_action_just_pressed("debug"):
@@ -51,6 +53,8 @@ func _physics_process(delta):
 	if is_jumping:
 		_velocity.y += jump_strength * jump_acc * delta
 	_velocity = lerp(_velocity, move_vector, delta * acc) # smooth movement
+	if move_vector.x or move_vector.z:
+		_model.rotation.y = lerp_angle(_model.rotation.y, atan2(move_vector.x, move_vector.z) - deg2rad(90), delta * angular_acc)
 	_velocity = move_and_slide(_velocity, Vector3.UP, true, 2)
 
 func _process(delta):
