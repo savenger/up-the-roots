@@ -21,7 +21,7 @@ script = ExtResource( 1 )
 script = ExtResource( 3 )
 
 [node name="Player" parent="." instance=ExtResource( 4 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5, 0 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 27.965, 0 )
 
 [node name="CenterContainer" type="CenterContainer" parent="."]
 anchor_left = 0.5

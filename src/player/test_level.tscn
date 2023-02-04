@@ -1,17 +1,16 @@
 [gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://src/player/player.tscn" type="PackedScene" id=1]
+[ext_resource path="res://src/trees/BaumColTest.tscn" type="PackedScene" id=2]
 
 [sub_resource type="BoxShape" id=1]
 
 [sub_resource type="CubeMesh" id=2]
 size = Vector3( 30, 1, 30 )
 
-[sub_resource type="CylinderShape" id=3]
+[sub_resource type="BoxShape" id=3]
 
-[sub_resource type="CylinderMesh" id=4]
-
-[sub_resource type="CylinderShape" id=5]
+[sub_resource type="CubeMesh" id=4]
 
 [node name="TestLevel" type="Spatial"]
 
@@ -28,40 +27,15 @@ shape = SubResource( 1 )
 [node name="MeshInstance" type="MeshInstance" parent="Floor"]
 mesh = SubResource( 2 )
 
-[node name="TestTree" type="StaticBody" parent="." groups=["roots"]]
-transform = Transform( 5.75287, 0, 0, 0, 26.4847, 0, 0, 0, 5.75287, 42.2206, 24.5576, 25.7939 )
+[node name="BaumColTest" parent="." instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -31.7201, 2.69026, 31.7687 )
 
-[node name="CollisionShape" type="CollisionShape" parent="TestTree"]
+[node name="StaticBody" type="StaticBody" parent="."]
+transform = Transform( 2.72203, 0, 0, 0, 0.761742, -2.62463, 0, 0.647881, 3.08589, 31.6272, 2.17194, 10.0199 )
+
+[node name="CollisionShape" type="CollisionShape" parent="StaticBody"]
 shape = SubResource( 3 )
 
-[node name="MeshInstance" type="MeshInstance" parent="TestTree"]
+[node name="MeshInstance" type="MeshInstance" parent="StaticBody"]
 mesh = SubResource( 4 )
 skeleton = NodePath("../CollisionShape")
-
-[node name="TreeArea" type="Area" parent="TestTree"]
-collision_layer = 2
-collision_mask = 2
-monitoring = false
-
-[node name="CollisionShape" type="CollisionShape" parent="TestTree/TreeArea"]
-transform = Transform( 1.2, 0, 0, 0, 1, 0, 0, 0, 1.2, 0, 0, 0 )
-shape = SubResource( 5 )
-
-[node name="TestTree2" type="StaticBody" parent="." groups=["roots"]]
-transform = Transform( 5.75287, 0, 0, 0, 26.4847, 0, 0, 0, 5.75287, 35.3055, 24.4781, 18.7706 )
-
-[node name="CollisionShape" type="CollisionShape" parent="TestTree2"]
-shape = SubResource( 3 )
-
-[node name="MeshInstance" type="MeshInstance" parent="TestTree2"]
-mesh = SubResource( 4 )
-skeleton = NodePath("../CollisionShape")
-
-[node name="TreeArea" type="Area" parent="TestTree2"]
-collision_layer = 2
-collision_mask = 2
-monitoring = false
-
-[node name="CollisionShape" type="CollisionShape" parent="TestTree2/TreeArea"]
-transform = Transform( 1.2, 0, 0, 0, 1, 0, 0, 0, 1.2, 0, 0, 0 )
-shape = SubResource( 5 )
