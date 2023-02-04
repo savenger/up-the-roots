@@ -24,8 +24,8 @@ func _ready():
 	current_player_chunk_pos.y = -1000
 
 func pos_to_chunk_pos(position):
-	var x = floor(position.x / (5 * 128))
-	var z = floor(position.z / (5 * 128))
+	var x = floor(position.x / (4 * 128))
+	var z = floor(position.z / (4 * 128))
 	return Vector2(x, z)
 
 func get_nearest_collectable(player_pos):
