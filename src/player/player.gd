@@ -1,8 +1,8 @@
 extends KinematicBody
 
 export var speed := 300.0
-export var jump_strength := 40.0
-export var gravity := 40.0
+export var jump_strength := 200.0
+export var gravity := 100.0
 
 
 var _velocity := Vector3.ZERO
