@@ -5,15 +5,12 @@
 [ext_resource path="res://src/levels/level_generation.gd" type="Script" id=3]
 [ext_resource path="res://src/player/player.tscn" type="PackedScene" id=4]
 
-[sub_resource type="ProceduralSky" id=6]
-sky_top_color = Color( 0.933333, 0.968627, 0.992157, 1 )
-sky_horizon_color = Color( 0.933333, 0.968627, 0.992157, 1 )
-ground_bottom_color = Color( 0.933333, 0.968627, 0.992157, 1 )
-ground_horizon_color = Color( 0.933333, 0.968627, 0.992157, 1 )
+[sub_resource type="ProceduralSky" id=8]
+sky_top_color = Color( 0.945098, 0.905882, 0.858824, 1 )
 
 [sub_resource type="Environment" id=7]
-background_mode = 1
-background_sky = SubResource( 6 )
+background_mode = 3
+background_sky = SubResource( 8 )
 background_color = Color( 0.933333, 0.968627, 0.992157, 1 )
 fog_enabled = true
 fog_color = Color( 0.933333, 0.968627, 0.992157, 1 )
@@ -50,16 +47,8 @@ margin_right = 666.0
 margin_bottom = 412.0
 texture = ExtResource( 2 )
 
-[node name="SunLight" type="DirectionalLight" parent="."]
-transform = Transform( -0.484459, 0.874814, 7.21899e-09, 0.150692, 0.0834508, 0.985052, 0.861738, 0.477217, -0.172256, 0, 0, 0 )
-light_color = Color( 0.964706, 0.768627, 0.596078, 1 )
-light_energy = 3.0
-shadow_enabled = true
-
-[node name="MoonLight" type="DirectionalLight" parent="SunLight"]
-transform = Transform( -1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 0, 0 )
-light_color = Color( 0.6, 0.74902, 0.823529, 1 )
-shadow_enabled = true
-
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource( 7 )
+
+[node name="DirectionalLight" type="DirectionalLight" parent="."]
+light_color = Color( 0.913725, 0.756863, 0.505882, 1 )

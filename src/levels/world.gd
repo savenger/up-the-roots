@@ -37,6 +37,7 @@ func get_nearest_collectable(player_pos):
 	#		dist = player_pos - vec
 	return nearest
 
+
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
 	var chunk_pos: Vector2 = pos_to_chunk_pos($Player.global_transform.origin)
@@ -45,8 +46,3 @@ func _process(delta):
 		current_player_chunk_pos = chunk_pos
 		nearest_collectable = get_nearest_collectable($Player.global_transform.origin)
 		$level_generator.generate_tiles(chunk_pos)
-	#$SunLight.light_energy = lerp(0, 3, $SunLight.rotation_degrees.x - 10)
-	#$MoonLight.light_energy = lerp(0, 3, $MoonLight.rotation_degrees.x - 10)
-	print("SunLight rotatoin: %s" % str($SunLight.rotation_degrees.x))
-	print("MoonLight rotatoin: %s" % str($SunLight/MoonLight.rotation_degrees.x))
-	$SunLight.rotate(Vector3.BACK, 1 * -delta * 0.05 * 10)

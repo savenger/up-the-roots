@@ -7,8 +7,8 @@ func _ready():
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 
 func _process(delta):
-	print(Input.get_joy_axis(0, 2))
-	print(Input.get_joy_axis(0, 3))
+	#print(Input.get_joy_axis(0, 2))
+	#print(Input.get_joy_axis(0, 3))
 	if abs(Input.get_joy_axis(0, 3)) > 0.1:
 		rotation_degrees.x -= Input.get_joy_axis(0, 3) * delta * 200
 		rotation_degrees.x = clamp(rotation_degrees.x, -90.0, 30.0)
