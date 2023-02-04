@@ -1,9 +1,17 @@
 class_name LevelGeneration extends Node
 
-const CHUNK_SIZE = 10
+const CHUNK_SIZE = 5
 const TILE_SIZE = 128
+var collectable_count = {
+	0: 20,
+	1: 7,
+	2: 4
+}
 var rng = RandomNumberGenerator.new()
+var building_ground = preload("res://src/levels/building_ground.tscn")
+var building_floor = preload("res://src/levels/city_building.tscn")
 var tiles = []
+var storys = []
 var collectables = []
 
 
@@ -13,58 +21,110 @@ func _ready():
 	collectables.append(preload("res://src/collectables/collectable.tscn"))
 
 
-func generate_buildings(position: Vector2):
-	print("have go generate bulding in %s, %s and around" % [str(position.x), str(position.y)])
-	if not buldings_present_in_chunk(position):
-		var c = collectables[0].instance()
-		c.size = 2
-		add_child(c)
-		c.global_transform.origin.x = position.x * CHUNK_SIZE * TILE_SIZE
-		c.global_transform.origin.y = 3 #+ randi() % 100
-		c.global_transform.origin.z = position.y * CHUNK_SIZE * TILE_SIZE
-		generate_buildings_in_chunk(position)
+func generate_tiles(position: Vector2):
+	print("have go generate tile in %s, %s and around" % [str(position.x), str(position.y)])
+	if not tiles_present_in_chunk(position):
+		generate_tiles_in_chunk(position)
 	for i in range(3):
 		for j in range(3):
 			var chunk_pos = Vector2(position.x + i - 1, position.y + j - 1)
-			print("around would be %s, %s" % [str(chunk_pos.x), str(chunk_pos.y)])
-			if not buldings_present_in_chunk(chunk_pos):
-				generate_buildings_in_chunk(chunk_pos)
-	print("This is the map:")
-	print(LevelData.map)
+			# print("around would be %s, %s" % [str(chunk_pos.x), str(chunk_pos.y)])
+			if not tiles_present_in_chunk(chunk_pos):
+				generate_tiles_in_chunk(chunk_pos)
 
 
-func buldings_present_in_chunk(chunk_position):
+func tiles_present_in_chunk(chunk_position):
 	if LevelData.map.has(chunk_position.x):
 		if LevelData.map[chunk_position.x].has(chunk_position.y):
-			#print("buldings_present_in_chunk(x: %s, y: %s)" % [str(chunk_position.x), str(chunk_position.y)])
+			#print("tiles_present_in_chunk(x: %s, y: %s)" % [str(chunk_position.x), str(chunk_position.y)])
 			return true
 	return false
 
 
-func get_random_tile():
-	var t = tiles[randi() % len(tiles)].instance()
+func generate_collectable():	
+	var c = collectables[randi() % len(collectables)].instance()
+	var r = rng.randi() % 3
+	c.size = r
+	c.sprite = rng.randi() % collectable_count[r]
+	print("Set size %s and sprite %s" % [str(c.size), str(c.sprite)])
+	return collectables[randi() % len(collectables)].instance()
+
+
+func generate_building_procedural(create_collectable):
+	var height = rng.randi() % 15 + 3
+	# stack `height` storys together, each one rotated separately
+	var n = StaticBody.new()
+	n.add_child(building_ground.instance())
+	if create_collectable:
+		var c = generate_collectable()
+		#c.global_transform.origin.x = position.x * CHUNK_SIZE * TILE_SIZE
+		#c.global_transform.origin.y = 3 #+ randi() % 100
+		#c.global_transform.origin.z = position.y * CHUNK_SIZE * TILE_SIZE
+		c.global_transform.origin.y = 10
+		n.add_child(c)
+	return n
+	for s in range(height):
+		var sr = storys[randi() % len(storys)].instance()
+		sr = apply_random_rotation(sr)
+		n.add_child(sr)
+		n.add_child(building_floor.instance())
+	# add props
+	return n
+
+
+func generate_building(create_collectable: bool):
+	# TODO generate building from separate storys and floors
+	var use_static = (rng.randf_range(0, 10.0) <= 1.0)
+	if use_static:
+		return tiles[randi() % len(tiles)].instance()
+	return generate_building_procedural(create_collectable)
+
+
+func generate_park():
+	# TODO: generate park
+	return tiles[randi() % len(tiles)].instance()
+
+
+func apply_random_rotation(o):
 	var r = rng.randf_range(0, 4.0)
 	if r <= 1.0:
-		t.rotation = Vector3(0, PI / 2, 0)
+		o.rotation = Vector3(0, PI / 2, 0)
 	elif r <= 2.0:
-		t.rotation = Vector3(0, PI, 0)
+		o.rotation = Vector3(0, PI, 0)
 	elif r <= 3.0:
-		t.rotation = Vector3(0, 3 * PI / 2, 0)
+		o.rotation = Vector3(0, 3 * PI / 2, 0)
+	return o
+
+
+func get_random_tile(create_collectable: bool):
+	# generate either a building or a park
+	var r = rng.randf_range(0, 2.0)
+	var t = null
+	if r <= 1.0:
+		t = generate_building(create_collectable)
+	else:
+		t = generate_building(create_collectable)
+		#t = generate_park()
+	
+	t = apply_random_rotation(t)
 	return t
 
 
-func generate_buildings_in_chunk(chunk_position):
-	#print("generate_buildings_in_chunk (x: %s, y: %s)" % [str(chunk_position.x), str(chunk_position.y)])
+func generate_tiles_in_chunk(chunk_position):
+	#print("generate_tiles_in_chunk (x: %s, y: %s)" % [str(chunk_position.x), str(chunk_position.y)])
 	# generate chunks around in 1 "chunk radius" (1 chunk = 100 x 100m)
+	var r = rng.randi() % (CHUNK_SIZE * CHUNK_SIZE)
 	for x in range(CHUNK_SIZE):
 		for z in range(CHUNK_SIZE):
-			var r = rng.randf_range(0, 4.0)
-			var t = get_random_tile()
+			var create_collectable = (x * CHUNK_SIZE) + z == int(r)
+			var t = get_random_tile(create_collectable)
 			add_child(t)
 			t.global_transform.origin.x = chunk_position.x * CHUNK_SIZE * TILE_SIZE + x * TILE_SIZE - TILE_SIZE / 2
 			t.global_transform.origin.z = chunk_position.y * CHUNK_SIZE * TILE_SIZE + z * TILE_SIZE - TILE_SIZE / 2
-			if x == 0 and z == 0:
-				print("that is: %s, %s" % [str(t.global_transform.origin.x), str(t.global_transform.origin.z)])
+			if create_collectable:
+				print("collectable is here: %s, %s" % [str(t.global_transform.origin.x), str(t.global_transform.origin.z)])
+			#if x == 0 and z == 0:
+			#	print("that is: %s, %s" % [str(t.global_transform.origin.x), str(t.global_transform.origin.z)])
 	if not LevelData.map.has(chunk_position.x):
 		LevelData.map[chunk_position.x] = Dictionary()
 	LevelData.map[chunk_position.x][chunk_position.y] = 1
