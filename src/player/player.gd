@@ -4,6 +4,7 @@ export var speed := 300.0
 export var jump_strength := 200.0
 export var gravity := 100.0
 
+signal debug_output
 
 var _velocity := Vector3.ZERO
 var _snap_vector := Vector3.DOWN
@@ -20,6 +21,8 @@ func _physics_process(delta):
 	_velocity.y -= gravity * delta
 	var just_landed := is_on_floor() and _snap_vector == Vector3.ZERO
 	var is_jumping := is_on_floor() and Input.is_action_just_pressed("jump")
+	if Input.is_action_just_pressed("debug"):
+		emit_signal("debug_output")
 	if is_jumping:
 		_velocity.y = jump_strength
 		_snap_vector = Vector3.ZERO
