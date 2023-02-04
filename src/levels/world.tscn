@@ -6,15 +6,15 @@
 [ext_resource path="res://src/player/player.tscn" type="PackedScene" id=4]
 
 [sub_resource type="ProceduralSky" id=6]
-radiance_size = 4
 sky_top_color = Color( 0.933333, 0.968627, 0.992157, 1 )
 sky_horizon_color = Color( 0.933333, 0.968627, 0.992157, 1 )
 ground_bottom_color = Color( 0.933333, 0.968627, 0.992157, 1 )
 ground_horizon_color = Color( 0.933333, 0.968627, 0.992157, 1 )
 
 [sub_resource type="Environment" id=7]
-background_mode = 2
+background_mode = 1
 background_sky = SubResource( 6 )
+background_color = Color( 0.933333, 0.968627, 0.992157, 1 )
 fog_enabled = true
 fog_color = Color( 0.933333, 0.968627, 0.992157, 1 )
 fog_sun_color = Color( 1, 0.901961, 0.701961, 1 )
