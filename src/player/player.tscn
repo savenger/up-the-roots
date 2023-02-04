@@ -58,8 +58,9 @@ shape = SubResource( 3 )
 [node name="model" parent="." instance=ExtResource( 3 )]
 transform = Transform( 0.65, 0, 0, 0, 0.65, 0, 0, 0, 0.65, 0, -1.229, 0 )
 
-[node name="Compass" type="CPUParticles" parent="."]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 9.53674e-07, 0 )
+[node name="Compass" type="Spatial" parent="."]
+
+[node name="CompassParticles" type="CPUParticles" parent="Compass"]
 amount = 20
 randomness = 1.0
 mesh = SubResource( 5 )

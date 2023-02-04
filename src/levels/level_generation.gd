@@ -153,7 +153,7 @@ func generate_tiles_in_chunk(chunk_position):
 			t.global_transform.origin.x = chunk_position.x * LevelData.CHUNK_SIZE * LevelData.TILE_SIZE + x * LevelData.TILE_SIZE - LevelData.TILE_SIZE / 2
 			t.global_transform.origin.z = chunk_position.y * LevelData.CHUNK_SIZE * LevelData.TILE_SIZE + z * LevelData.TILE_SIZE - LevelData.TILE_SIZE / 2
 			if create_collectable:
-				LevelData.collectable_locations.append(Vector2(t.global_transform.origin.x, t.global_transform.origin.z))
+				LevelData.collectable_locations.append(t.global_transform.origin)
 				print("collectable is here: %s, %s" % [str(t.global_transform.origin.x), str(t.global_transform.origin.z)])
 			#if x == 0 and z == 0:
 			#	print("that is: %s, %s" % [str(t.global_transform.origin.x), str(t.global_transform.origin.z)])

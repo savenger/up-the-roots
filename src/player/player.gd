@@ -21,6 +21,7 @@ var jump_timer = 0
 var glide_timer = 0
 var root_area_count: int = 0
 var floor_area_count: int = 0
+var nearest_collectable = null
 
 signal debug_output
 
@@ -82,6 +83,11 @@ func _process(delta):
 		is_gliding = false
 	if Input.is_action_just_released("jump"):
 		jump_timer = 0
+	if nearest_collectable:
+		$Compass.look_at(nearest_collectable, Vector3.UP)
+
+func set_nearest_collectable(collectable):
+	nearest_collectable = collectable
 
 func _on_Sphere_body_entered(body: StaticBody):
 	if body.is_in_group("roots"):

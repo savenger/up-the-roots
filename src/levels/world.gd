@@ -2,7 +2,6 @@ extends Spatial
 
 var current_player_chunk_pos: Vector2
 var cb = preload("res://src/levels/city_building.tscn")
-var nearest_collectable = null
 
 func _set_splash_timeout():
 	var timerSplashScreen = Timer.new()
@@ -31,10 +30,11 @@ func pos_to_chunk_pos(position):
 func get_nearest_collectable(player_pos):
 	var dist = 999999
 	var nearest = null
-	#for vec in LevelData.collectable_locations:
-	#	if Vector2(player_pos.x, player_pos.z) - vec < dist:
-	#		nearest = vec
-	#		dist = player_pos - vec
+	for vec in LevelData.collectable_locations:
+		var d = player_pos.distance_to(vec)
+		if  d < dist:
+			nearest = vec
+			dist = d
 	return nearest
 
 
@@ -44,5 +44,5 @@ func _process(delta):
 	
 	if chunk_pos.x != current_player_chunk_pos.x or chunk_pos.y != current_player_chunk_pos.y:
 		current_player_chunk_pos = chunk_pos
-		nearest_collectable = get_nearest_collectable($Player.global_transform.origin)
+		$Player.set_nearest_collectable(get_nearest_collectable($Player.global_transform.origin))
 		$level_generator.generate_tiles(chunk_pos)
