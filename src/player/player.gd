@@ -9,12 +9,16 @@ export var jump_strength := 300.0
 export var root_travel_speed := 20.0
 export var jump_acc := 4.0
 export var default_gravity := 400.0
-export var glide_gravity := 50.0
+export var glide_gravity := 25.0
 export var max_jump_time := 0.3
+export var max_glide_time := 4.0
 export var angular_acc := 6.0
 
 var is_jumping: bool = false
+var is_gliding: bool = false
+var new_glide_possible: bool = true
 var jump_timer = 0
+var glide_timer = 0
 var root_area_count: int = 0
 var floor_area_count: int = 0
 
@@ -47,7 +51,7 @@ func _physics_process(delta):
 	else:
 		if not is_on_floor():
 			var gravity = default_gravity
-			if Input.is_action_pressed("jump") and not is_jumping and is_moving:
+			if is_gliding:
 				gravity = glide_gravity
 			_velocity.y -= gravity * delta
 	var jump_now := floor_area_count > 0 and Input.is_action_just_pressed("jump")
@@ -66,6 +70,17 @@ func _process(delta):
 	_camera_joint.translation = translation
 	if jump_timer > 0:
 		jump_timer -= delta
+	if new_glide_possible and Input.is_action_pressed("jump") and not is_jumping and not is_on_floor():
+		new_glide_possible = false
+		glide_timer = max_glide_time
+		is_gliding = true
+		print(glide_timer)
+	if is_gliding:
+		glide_timer -= delta
+	if glide_timer > 0:
+		is_gliding = Input.is_action_pressed("jump")
+	else:
+		is_gliding = false
 	if Input.is_action_just_released("jump"):
 		jump_timer = 0
 
@@ -82,6 +97,9 @@ func _on_Sphere_body_exited(body: StaticBody):
 func _on_AreaUnder_body_entered(body):
 	if body:
 		if body.get_class() == "StaticBody":
+			new_glide_possible = true
+			glide_timer = 0
+			is_gliding = false
 			floor_area_count += 1
 
 func _on_AreaUnder_body_exited(body):
