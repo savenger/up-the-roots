@@ -57,8 +57,7 @@ func generate_collectable():
 	var r = rng.randi() % 3
 	c.size = r
 	c.sprite = rng.randi() % collectable_count[r]
-	print("Set size %s and sprite %s" % [str(c.size), str(c.sprite)])
-	return collectables[randi() % len(collectables)].instance()
+	return c
 
 
 func generate_building_procedural(create_collectable):
