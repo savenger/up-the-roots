@@ -2,6 +2,7 @@ class_name LevelGeneration extends Node
 
 const CHUNK_SIZE = 5
 const TILE_SIZE = 128
+const STORY_HEIGHT = 8
 var collectable_count = {
 	0: 20,
 	1: 7,
@@ -72,14 +73,21 @@ func generate_building_procedural(create_collectable):
 		#c.global_transform.origin.z = position.y * CHUNK_SIZE * TILE_SIZE
 		c.global_transform.origin.y = 10
 		n.add_child(c)
-	var height = rng.randi() % 5 + 3
+	var height = rng.randi() % 15 + 3
+	var current_height = STORY_HEIGHT
 	for s in range(height):
 		var sr = storys[randi() % len(storys)].instance()
 		sr = apply_random_rotation(sr)
+		sr.global_transform.origin.y = current_height
 		n.add_child(sr)
 		if s < height - 1:
-			n.add_child(stairs.instance())
-	n.add_child(stairs_roof.instance())
+			var stairs_instance = stairs.instance()
+			stairs_instance.global_transform.origin.y = current_height
+			n.add_child(stairs_instance)
+		current_height += STORY_HEIGHT
+	var stairs_roof_instance = stairs_roof.instance()
+	stairs_roof_instance.transform.origin.y = current_height
+	n.add_child(stairs_roof_instance)
 	# add props
 	return n
 
