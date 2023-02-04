@@ -1,6 +1,6 @@
 class_name LevelGeneration extends Node
 
-const CHUNK_SIZE = 3
+const CHUNK_SIZE = 4
 const TILE_SIZE = 128
 const STORY_HEIGHT = 16
 const FUNDAMENT_HEIGHT = 3.66
