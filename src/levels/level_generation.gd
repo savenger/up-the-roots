@@ -1,6 +1,6 @@
 class_name LevelGeneration extends Node
 
-const CHUNK_SIZE = 5
+const CHUNK_SIZE = 3
 const TILE_SIZE = 128
 const STORY_HEIGHT = 16
 const FUNDAMENT_HEIGHT = 3.66
@@ -19,10 +19,7 @@ var tiles = [
 	preload("res://src/levels/city_building.tscn")
 ]
 var windows = [
-	preload("res://src/levels/Office.tscn"),
-	preload("res://src/levels/OfficeBottomDamaged.tscn"),
-	preload("res://src/levels/OfficeSideDamaged.tscn"),
-	preload("res://src/levels/OfficeTopDamaged.tscn")
+	preload("res://src/levels/Windows.tscn"),
 ]
 var storys = [
 	preload("res://src/levels/Office.tscn"),
@@ -73,7 +70,7 @@ func generate_building_procedural(create_collectable):
 	var inst = building_entrance.instance()
 	n.add_child(inst)
 	inst.transform.origin.y = FUNDAMENT_HEIGHT
-	var wd = windows[randi() % len(storys)].instance()
+	var wd = windows[randi() % len(windows)].instance()
 	wd = apply_random_rotation(wd)
 	n.add_child(wd)
 	wd.transform.origin.y = FUNDAMENT_HEIGHT
@@ -91,7 +88,7 @@ func generate_building_procedural(create_collectable):
 		sr = apply_random_rotation(sr)
 		n.add_child(sr)
 		sr.transform.origin.y = current_height
-		wd = windows[randi() % len(storys)].instance()
+		wd = windows[randi() % len(windows)].instance()
 		wd = apply_random_rotation(wd)
 		n.add_child(wd)
 		wd.transform.origin.y = current_height
