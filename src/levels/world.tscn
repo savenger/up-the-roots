@@ -1,18 +1,9 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://src/levels/world.gd" type="Script" id=1]
 [ext_resource path="res://assets/splashscreen_spielwerker.png" type="Texture" id=2]
 [ext_resource path="res://src/levels/level_generation.gd" type="Script" id=3]
 [ext_resource path="res://src/player/player.tscn" type="PackedScene" id=4]
-
-[sub_resource type="NoiseTexture" id=6]
-
-[sub_resource type="PanoramaSky" id=5]
-panorama = SubResource( 6 )
-
-[sub_resource type="Environment" id=7]
-background_mode = 2
-background_sky = SubResource( 5 )
 
 [node name="World" type="Spatial"]
 script = ExtResource( 1 )
@@ -37,9 +28,6 @@ margin_bottom = 206.0
 margin_right = 666.0
 margin_bottom = 412.0
 texture = ExtResource( 2 )
-
-[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
-environment = SubResource( 7 )
 
 [node name="DirectionalLight" type="DirectionalLight" parent="."]
 transform = Transform( -0.484459, 0.874814, 7.21899e-09, 0.150692, 0.0834508, 0.985052, 0.861738, 0.477217, -0.172256, 0, 0, 0 )

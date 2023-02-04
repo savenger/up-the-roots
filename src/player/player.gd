@@ -11,7 +11,7 @@ export var jump_acc := 4.0
 export var default_gravity := 400.0
 export var glide_gravity := 25.0
 export var max_jump_time := 0.3
-export var max_glide_time := 4.0
+export var max_glide_time := 2.5
 export var angular_acc := 6.0
 
 var is_jumping: bool = false
