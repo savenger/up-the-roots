@@ -13,9 +13,15 @@ _global_script_classes=[ {
 "class": "FreeLookCamera",
 "language": "GDScript",
 "path": "res://src/levels/Camera.gd"
+}, {
+"base": "Node",
+"class": "LevelGeneration",
+"language": "GDScript",
+"path": "res://src/levels/level_generation.gd"
 } ]
 _global_script_class_icons={
-"FreeLookCamera": ""
+"FreeLookCamera": "",
+"LevelGeneration": ""
 }
 
 [application]
@@ -23,6 +29,10 @@ _global_script_class_icons={
 config/name="Up-the-roots"
 run/main_scene="res://src/levels/test_level.tscn"
 config/icon="res://assets/icon.png"
+
+[autoload]
+
+LevelData="*res://src/levels/level_data.gd"
 
 [gui]
 
