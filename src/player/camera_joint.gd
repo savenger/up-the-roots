@@ -5,6 +5,16 @@ export var mouse_sensitivity := 0.05
 func _ready():
 	set_as_toplevel(true)
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
+
+func _process(delta):
+	print(Input.get_joy_axis(0, 2))
+	print(Input.get_joy_axis(0, 3))
+	if abs(Input.get_joy_axis(0, 3)) > 0.1:
+		rotation_degrees.x -= Input.get_joy_axis(0, 3) * delta * 200
+		rotation_degrees.x = clamp(rotation_degrees.x, -90.0, 30.0)
+	if abs(Input.get_joy_axis(0, 2)) > 0.1:
+		rotation_degrees.y -= Input.get_joy_axis(0, 2) * delta * 200
+		rotation_degrees.y = wrapf(rotation_degrees.y, 0.0, 360.0)
 	
 func _unhandled_input(event):
 	if event is InputEventMouseMotion:
