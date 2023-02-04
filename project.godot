@@ -27,7 +27,7 @@ _global_script_class_icons={
 [application]
 
 config/name="Up-the-roots"
-run/main_scene="res://src/levels/test_level.tscn"
+run/main_scene="res://src/levels/world.tscn"
 config/icon="res://assets/icon.png"
 
 [autoload]

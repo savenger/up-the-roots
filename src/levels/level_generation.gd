@@ -9,15 +9,24 @@ var collectable_count = {
 }
 var rng = RandomNumberGenerator.new()
 var building_ground = preload("res://src/levels/building_ground.tscn")
-var building_floor = preload("res://src/levels/city_building.tscn")
-var tiles = []
-var storys = []
+var building_entrance = preload("res://src/levels/OfficeEntrance.tscn")
+var stairs_entrance = preload("res://src/levels/StairsEntrance.tscn")
+var stairs_roof = preload("res://src/levels/StairsRoof.tscn")
+var stairs = preload("res://src/levels/Stairs.tscn")
+var tiles = [
+	preload("res://src/levels/city_building.tscn")
+]
+var storys = [
+	preload("res://src/levels/Office.tscn"),
+	preload("res://src/levels/OfficeBottomDamaged.tscn"),
+	preload("res://src/levels/OfficeSideDamaged.tscn"),
+	preload("res://src/levels/OfficeTopDamaged.tscn")
+]
 var collectables = []
 
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	tiles.append(preload("res://src/levels/city_building.tscn"))
 	collectables.append(preload("res://src/collectables/collectable.tscn"))
 
 
@@ -51,10 +60,11 @@ func generate_collectable():
 
 
 func generate_building_procedural(create_collectable):
-	var height = rng.randi() % 15 + 3
 	# stack `height` storys together, each one rotated separately
 	var n = StaticBody.new()
 	n.add_child(building_ground.instance())
+	n.add_child(building_entrance.instance())
+	n.add_child(stairs_entrance.instance())
 	if create_collectable:
 		var c = generate_collectable()
 		#c.global_transform.origin.x = position.x * CHUNK_SIZE * TILE_SIZE
@@ -62,12 +72,14 @@ func generate_building_procedural(create_collectable):
 		#c.global_transform.origin.z = position.y * CHUNK_SIZE * TILE_SIZE
 		c.global_transform.origin.y = 10
 		n.add_child(c)
-	return n
+	var height = rng.randi() % 5 + 3
 	for s in range(height):
 		var sr = storys[randi() % len(storys)].instance()
 		sr = apply_random_rotation(sr)
 		n.add_child(sr)
-		n.add_child(building_floor.instance())
+		if s < height - 1:
+			n.add_child(stairs.instance())
+	n.add_child(stairs_roof.instance())
 	# add props
 	return n
 
