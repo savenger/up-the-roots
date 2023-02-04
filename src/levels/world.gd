@@ -34,3 +34,8 @@ func _process(delta):
 	if chunk_pos.x != current_player_chunk_pos.x or chunk_pos.y != current_player_chunk_pos.y:
 		current_player_chunk_pos = chunk_pos
 		$level_generator.generate_tiles(chunk_pos)
+	#$SunLight.light_energy = lerp(0, 3, $SunLight.rotation_degrees.x - 10)
+	#$MoonLight.light_energy = lerp(0, 3, $MoonLight.rotation_degrees.x - 10)
+	print("SunLight rotatoin: %s" % str($SunLight.rotation_degrees.x))
+	print("MoonLight rotatoin: %s" % str($SunLight/MoonLight.rotation_degrees.x))
+	$SunLight.rotate(Vector3.BACK, 1 * -delta * 0.05 * 10)
