@@ -74,7 +74,6 @@ func _process(delta):
 		new_glide_possible = false
 		glide_timer = max_glide_time
 		is_gliding = true
-		print(glide_timer)
 	if is_gliding:
 		glide_timer -= delta
 	if glide_timer > 0:
@@ -87,12 +86,10 @@ func _process(delta):
 func _on_Sphere_body_entered(body: StaticBody):
 	if body.is_in_group("roots"):
 		root_area_count += 1
-		print(root_area_count)
 
 func _on_Sphere_body_exited(body: StaticBody):
 	if body.is_in_group("roots"):
 		root_area_count -= 1
-		print(root_area_count)
 
 func _on_AreaUnder_body_entered(body):
 	if body:
