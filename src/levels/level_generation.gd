@@ -16,7 +16,8 @@ var tiles = [
 ]
 var parks = [
 	preload("res://src/levels/Park.tscn"),
-	preload("res://src/levels/RuinTileFertig.tscn")
+	preload("res://src/levels/RuinTileFertig.tscn"),
+	preload("res://src/levels/ConstructionSiteTile.tscn")
 ]
 var trees = [
 	preload("res://src/levels/BigTree.tscn"),
