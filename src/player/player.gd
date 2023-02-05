@@ -35,6 +35,7 @@ onready var _glide_particles: CPUParticles = $GlideParticles
 
 func _ready():
 	music_volume = get_parent().get_node("BackgroundMusic").volume_db
+	get_nearest_collectable_delayed()
 
 func adjust_volume():
 	get_parent().get_node("BackgroundMusic").volume_db = music_volume + base_volume
@@ -131,3 +132,18 @@ func _on_AreaUnder_body_exited(body):
 	if body:
 		if body.get_class() == "StaticBody":
 			floor_area_count -= 1
+
+func collect(size: int, sprite: int):
+	$CollectionParticles.emitting = true
+	get_nearest_collectable_delayed()
+
+func get_nearest_collectable_delayed():
+	var timer = Timer.new()
+	add_child(timer)
+	timer.connect("timeout", self, "get_nearest_collectable")
+	timer.one_shot = true
+	timer.wait_time = 2
+	timer.start()
+
+func get_nearest_collectable():
+	set_nearest_collectable(get_parent().get_nearest_collectable(global_transform.origin))
