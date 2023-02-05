@@ -1,12 +1,10 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=10 format=2]
 
 [ext_resource path="res://src/levels/world.gd" type="Script" id=1]
 [ext_resource path="res://assets/splashscreen_spielwerker.png" type="Texture" id=2]
 [ext_resource path="res://src/levels/level_generation.gd" type="Script" id=3]
 [ext_resource path="res://src/player/player.tscn" type="PackedScene" id=4]
-[ext_resource path="res://src/collectables/collectable_menu_item.tscn" type="PackedScene" id=5]
 [ext_resource path="res://assets/audio/sfx/white_noise.wav" type="AudioStream" id=6]
-
 
 [sub_resource type="Gradient" id=9]
 offsets = PoolRealArray( 0, 0.218274, 0.619289, 0.994924, 1 )
@@ -16,7 +14,6 @@ colors = PoolColorArray( 0, 0, 0, 0, 0.048731, 0.048731, 0.048731, 0.457143, 0, 
 gradient = SubResource( 9 )
 width = 365
 height = 676
-
 
 [sub_resource type="ProceduralSky" id=8]
 sky_top_color = Color( 0.945098, 0.905882, 0.858824, 1 )
@@ -161,7 +158,7 @@ light_color = Color( 0.913725, 0.756863, 0.505882, 1 )
 
 [node name="ASP_Wind" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 6 )
-volume_db = -37.902
+volume_db = -10.0
 autoplay = true
 bus = "Wind"
 
