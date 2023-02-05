@@ -2,6 +2,9 @@ extends Node
 var map = {}
 var collectable_locations = []
 var collection = {
+	0: [],
+	1: [],
+	2: []
 }
 var collectable_count = {
 	0: 20,
