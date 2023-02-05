@@ -8,8 +8,9 @@
 [ext_resource path="res://assets/audio/sfx/white_noise.wav" type="AudioStream" id=6]
 
 [sub_resource type="Gradient" id=9]
+interpolation_mode = 1
 offsets = PoolRealArray( 0, 0.0304569, 1 )
-colors = PoolColorArray( 0, 0, 0, 0, 0.00392157, 0.0705882, 0.00392157, 0.815686, 0.00392157, 0.0705882, 0.00392157, 0.815686 )
+colors = PoolColorArray( 0, 0, 0, 0, 0.00392157, 0.0705882, 0.00392157, 0.729412, 0.00392157, 0.0705882, 0.00392157, 0.729412 )
 
 [sub_resource type="GradientTexture2D" id=10]
 gradient = SubResource( 9 )
