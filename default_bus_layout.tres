@@ -1,0 +1,29 @@
+[gd_resource type="AudioBusLayout" load_steps=4 format=2]
+
+[sub_resource type="AudioEffectReverb" id=1]
+resource_name = "Reverb"
+
+[sub_resource type="AudioEffectNotchFilter" id=2]
+resource_name = "NotchFilter"
+cutoff_hz = 12506.0
+
+[sub_resource type="AudioEffectPhaser" id=3]
+resource_name = "Phaser"
+range_min_hz = 10.0
+range_max_hz = 2019.75
+rate_hz = 0.1
+depth = 0.4
+
+[resource]
+bus/1/name = "Wind"
+bus/1/solo = false
+bus/1/mute = false
+bus/1/bypass_fx = false
+bus/1/volume_db = 0.0
+bus/1/send = "Master"
+bus/1/effect/0/effect = SubResource( 1 )
+bus/1/effect/0/enabled = true
+bus/1/effect/1/effect = SubResource( 2 )
+bus/1/effect/1/enabled = true
+bus/1/effect/2/effect = SubResource( 3 )
+bus/1/effect/2/enabled = true
