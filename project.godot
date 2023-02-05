@@ -37,6 +37,10 @@ config/icon="res://assets/icon.png"
 
 LevelData="*res://src/levels/level_data.gd"
 
+[display]
+
+window/size/resizable=false
+
 [gui]
 
 common/drop_mouse_on_gui_input_disabled=true
