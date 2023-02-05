@@ -38,9 +38,24 @@ func get_nearest_collectable(player_pos):
 	return nearest
 
 
+func pause():
+	# show / hide menu
+	var new_pause_state: bool = not get_tree().paused
+	if new_pause_state:
+		$Menu.show()
+		Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
+	else:
+		$Menu.hide()
+		Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
+	print("get_tree().paused: {paused}".format({"paused": get_tree().paused}))
+	get_tree().paused = new_pause_state
+
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
 	var chunk_pos: Vector2 = pos_to_chunk_pos($Player.global_transform.origin)
+	
+	if Input.is_action_just_pressed("menu"):
+		pause()
 	
 	if chunk_pos.x != current_player_chunk_pos.x or chunk_pos.y != current_player_chunk_pos.y:
 		current_player_chunk_pos = chunk_pos
@@ -57,3 +72,19 @@ func _on_BackgroundMusic_finished():
 	timer.one_shot = true
 	timer.wait_time = 0.1
 	timer.start()
+
+
+func _on_btnResume_pressed():
+	pause()
+
+
+func _on_btnExit_pressed():
+	get_tree().quit()
+
+
+func _on_btnVolumeUp_pressed():
+	LevelData.volume_up()
+
+
+func _on_btnVolumeDown_pressed():
+	LevelData.volume_down()

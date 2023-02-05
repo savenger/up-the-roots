@@ -22,8 +22,6 @@ var glide_timer = 0
 var root_area_count: int = 0
 var floor_area_count: int = 0
 var nearest_collectable = null
-var base_volume : int = 0
-var music_volume : int = -20
 
 signal debug_output
 
@@ -34,19 +32,15 @@ onready var _model: Spatial = $model
 onready var _glide_particles: CPUParticles = $GlideParticles
 
 func _ready():
-	music_volume = get_parent().get_node("BackgroundMusic").volume_db
+	LevelData.music_volume = get_parent().get_node("BackgroundMusic").volume_db
 	get_nearest_collectable_delayed()
 
-func adjust_volume():
-	get_parent().get_node("BackgroundMusic").volume_db = music_volume + base_volume
 
 func _physics_process(delta):
 	if Input.is_action_just_released("volume_up"):
-		base_volume +=  5
-		adjust_volume()
+		LevelData.volume_up()
 	if Input.is_action_just_released("volume_down"):
-		base_volume -=  5
-		adjust_volume()
+		LevelData.volume_down()
 	if Input.is_action_just_pressed("debug"):
 		emit_signal("debug_output")
 	var move_vector := Vector3.ZERO
