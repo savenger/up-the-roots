@@ -27,7 +27,8 @@ _global_script_class_icons={
 [application]
 
 config/name="Up the roots"
-config/description="A game in which you control a tree spirit and wander around a city long abandoned from mankind"
+config/description="Explore a post-apocalyptic city through the eyes of a small tree-spirit.
+Climbing on roots and gliding between giant skyscrapers, you travel further and further guided by your forest magic, leading you to leftovers of the extinct civillization."
 run/main_scene="res://src/levels/world.tscn"
 boot_splash/image="res://assets/loading.png"
 config/icon="res://assets/icon.png"
