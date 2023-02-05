@@ -19,6 +19,9 @@ var tiles = [
 var parks = [
 	preload("res://src/levels/Park.tscn")
 ]
+var trees = [
+	preload("res://src/levels/BigTree.tscn")
+]
 var windows = [
 	preload("res://src/levels/Windows.tscn"),
 ]
@@ -116,6 +119,8 @@ func generate_park():
 	# TODO: generate park
 	return parks[randi() % len(parks)].instance()
 
+func generate_tree():
+	return trees[randi() % len(trees)].instance()
 
 func apply_random_rotation(o):
 	var r = rng.randf_range(0, 4.0)
@@ -160,6 +165,13 @@ func generate_tiles_in_chunk(chunk_position):
 				print("collectable is here: %s, %s" % [str(t.global_transform.origin.x), str(t.global_transform.origin.z)])
 			#if x == 0 and z == 0:
 			#	print("that is: %s, %s" % [str(t.global_transform.origin.x), str(t.global_transform.origin.z)])
+	# place tree between two random tiles
+	var rx = rng.randi() % LevelData.CHUNK_SIZE
+	var rz = rng.randi() % LevelData.CHUNK_SIZE
+	var t = generate_tree()
+	add_child(t)
+	t.global_transform.origin.x = chunk_position.x * LevelData.CHUNK_SIZE * LevelData.TILE_SIZE + rx * LevelData.TILE_SIZE
+	t.global_transform.origin.z = chunk_position.y * LevelData.CHUNK_SIZE * LevelData.TILE_SIZE + rz * LevelData.TILE_SIZE - LevelData.TILE_SIZE / 2
 	if not LevelData.map.has(chunk_position.x):
 		LevelData.map[chunk_position.x] = Dictionary()
 	LevelData.map[chunk_position.x][chunk_position.y] = 1
