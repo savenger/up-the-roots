@@ -165,6 +165,7 @@ light_color = Color( 0.913725, 0.756863, 0.505882, 1 )
 stream = ExtResource( 6 )
 volume_db = -10.0
 autoplay = true
+bus = "Wind"
 
 [connection signal="pressed" from="Menu/Container/VBoxContainer/VBoxContainer/btnVolumeUp" to="." method="_on_btnVolumeUp_pressed"]
 [connection signal="pressed" from="Menu/Container/VBoxContainer/VBoxContainer/btnVolumeDown" to="." method="_on_btnVolumeDown_pressed"]
