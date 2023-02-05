@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=13 format=2]
 
 [ext_resource path="res://src/levels/world.gd" type="Script" id=1]
 [ext_resource path="res://assets/splashscreen_spielwerker.png" type="Texture" id=2]
@@ -6,6 +6,51 @@
 [ext_resource path="res://src/player/player.tscn" type="PackedScene" id=4]
 [ext_resource path="res://assets/keys.png" type="Texture" id=5]
 [ext_resource path="res://assets/audio/sfx/white_noise.wav" type="AudioStream" id=6]
+
+[sub_resource type="StyleBoxFlat" id=11]
+bg_color = Color( 0.0666667, 0.180392, 0.0705882, 1 )
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color( 0.996078, 0.917647, 0.737255, 1 )
+corner_radius_top_left = 1
+corner_radius_top_right = 1
+corner_radius_bottom_right = 1
+corner_radius_bottom_left = 1
+
+[sub_resource type="StyleBoxFlat" id=9]
+bg_color = Color( 0.996078, 0.917647, 0.737255, 1 )
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color( 0.0666667, 0.180392, 0.0705882, 1 )
+corner_radius_top_left = 1
+corner_radius_top_right = 1
+corner_radius_bottom_right = 1
+corner_radius_bottom_left = 1
+
+[sub_resource type="StyleBoxFlat" id=12]
+bg_color = Color( 0.0666667, 0.180392, 0.0705882, 1 )
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color( 0.996078, 0.917647, 0.737255, 1 )
+corner_radius_top_left = 1
+corner_radius_top_right = 1
+corner_radius_bottom_right = 1
+corner_radius_bottom_left = 1
+
+[sub_resource type="Theme" id=10]
+Button/colors/font_color = Color( 0.0666667, 0.180392, 0.0705882, 1 )
+Button/colors/font_color_focus = Color( 0.0666667, 0.180392, 0.0705882, 1 )
+Button/colors/font_color_hover = Color( 0.996078, 0.917647, 0.737255, 1 )
+Button/colors/font_color_pressed = Color( 0.996078, 0.917647, 0.737255, 1 )
+Button/styles/hover = SubResource( 11 )
+Button/styles/normal = SubResource( 9 )
+Button/styles/pressed = SubResource( 12 )
 
 [sub_resource type="ProceduralSky" id=8]
 sky_top_color = Color( 0.945098, 0.905882, 0.858824, 1 )
@@ -35,7 +80,6 @@ pause_mode = 2
 script = ExtResource( 1 )
 
 [node name="Menu" type="CanvasLayer" parent="."]
-visible = false
 
 [node name="ScrollContainer" type="ScrollContainer" parent="Menu"]
 anchor_left = 1.0
@@ -84,35 +128,36 @@ anchor_bottom = 1.0
 margin_left = -108.5
 margin_top = -68.0
 margin_right = 108.5
+theme = SubResource( 10 )
 
 [node name="VBoxContainer" type="GridContainer" parent="Menu/Container/VBoxContainer"]
 margin_right = 217.0
-margin_bottom = 20.0
+margin_bottom = 16.0
 columns = 2
 
 [node name="btnVolumeUp" type="Button" parent="Menu/Container/VBoxContainer/VBoxContainer"]
-margin_right = 99.0
-margin_bottom = 20.0
+margin_right = 107.0
+margin_bottom = 16.0
 size_flags_horizontal = 3
 text = "Volume Up + "
 
 [node name="btnVolumeDown" type="Button" parent="Menu/Container/VBoxContainer/VBoxContainer"]
-margin_left = 103.0
+margin_left = 111.0
 margin_right = 217.0
-margin_bottom = 20.0
+margin_bottom = 16.0
 size_flags_horizontal = 3
 text = "Volume Down - "
 
 [node name="btnResume" type="Button" parent="Menu/Container/VBoxContainer"]
-margin_top = 24.0
+margin_top = 20.0
 margin_right = 217.0
-margin_bottom = 44.0
+margin_bottom = 36.0
 text = "Resume"
 
 [node name="btnExit" type="Button" parent="Menu/Container/VBoxContainer"]
-margin_top = 48.0
+margin_top = 40.0
 margin_right = 217.0
-margin_bottom = 68.0
+margin_bottom = 56.0
 text = "Exit"
 
 [node name="level_generator" type="Node" parent="."]
