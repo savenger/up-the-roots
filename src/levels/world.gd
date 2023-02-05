@@ -99,7 +99,6 @@ func _process(delta):
 	AudioServer.get_bus_effect(AudioServer.get_bus_index("Wind"), 1).cutoff_hz = $Player.global_transform.origin.y * 40 + 80
 	$ASP_Wind.volume_db = range_lerp($Player.global_transform.origin.y , 0, 200, -10, 0)
 
-	print($ASP_Wind.volume_db) 
 
 func start_music():
 	current_track = (current_track + 1) % len(music_streams)
