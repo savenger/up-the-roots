@@ -28,6 +28,7 @@ pause_mode = 2
 script = ExtResource( 1 )
 
 [node name="Menu" type="CanvasLayer" parent="."]
+visible = false
 
 [node name="Container" type="Control" parent="Menu"]
 anchor_left = 0.5
