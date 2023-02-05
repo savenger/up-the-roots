@@ -1,8 +1,10 @@
 class_name LevelGeneration extends Node
 
+const MAIN_OFFSET = 1
 const BUILDING_WIDTH = 64
 const STORY_HEIGHT = 16
 const FUNDAMENT_HEIGHT = 3.66
+const FLOOR_HEIGHT = 0.8
 var rng = RandomNumberGenerator.new()
 var building_ground = preload("res://src/levels/building_ground.tscn")
 var building_entrance = preload("res://src/levels/OfficeEntrance.tscn")
@@ -90,19 +92,21 @@ func move_prop_randomly(prop):
 func generate_building_procedural(create_collectable):
 	# stack `height` storys together, each one rotated separately
 	var n = StaticBody.new()
-	n.add_child(building_ground.instance())
+	var g = building_ground.instance()
+	g.transform.origin.y = MAIN_OFFSET
+	n.add_child(g)
 	var inst = building_entrance.instance()
 	n.add_child(inst)
-	inst.transform.origin.y = FUNDAMENT_HEIGHT
+	inst.transform.origin.y = FUNDAMENT_HEIGHT + FLOOR_HEIGHT
 	var wd = windows[randi() % len(windows)].instance()
 	wd = apply_random_rotation(wd)
 	n.add_child(wd)
-	wd.transform.origin.y = FUNDAMENT_HEIGHT
+	wd.transform.origin.y = FUNDAMENT_HEIGHT + FLOOR_HEIGHT
 	inst = stairs_entrance.instance()
 	inst.transform.origin.y = FUNDAMENT_HEIGHT
 	n.add_child(inst)
 	var p = generate_prop()
-	p.transform.origin.y = FUNDAMENT_HEIGHT
+	p.transform.origin.y = FUNDAMENT_HEIGHT + FLOOR_HEIGHT
 	p = move_prop_randomly(p)
 	n.add_child(p)
 	var height = rng.randi() % 15 + 3
@@ -117,15 +121,16 @@ func generate_building_procedural(create_collectable):
 		var sr = storys[randi() % len(storys)].instance()
 		sr = apply_random_rotation(sr)
 		n.add_child(sr)
-		sr.transform.origin.y = current_height
+		sr.transform.origin.y = current_height + FLOOR_HEIGHT
+		sr.scale.y = 0.95
 		wd = windows[randi() % len(windows)].instance()
 		wd = apply_random_rotation(wd)
 		n.add_child(wd)
-		wd.transform.origin.y = current_height
+		wd.transform.origin.y = current_height  + FLOOR_HEIGHT
 		
 		p = generate_prop()
 		p = apply_random_rotation(p)
-		p.transform.origin.y = current_height
+		p.transform.origin.y = current_height + FLOOR_HEIGHT
 		p = move_prop_randomly(p)
 		n.add_child(p)
 		
