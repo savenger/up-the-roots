@@ -3,6 +3,14 @@ extends Spatial
 var current_player_chunk_pos: Vector2
 var cb = preload("res://src/levels/city_building.tscn")
 
+var current_track = 0
+var music_files = [
+	"res://assets/audio/another_sunrise.mp3",
+	"res://assets/audio/roots-melancholy.mp3",
+	"res://assets/audio/tragedy.mp3"
+]
+var music_streams = []
+
 func _set_splash_timeout():
 	var timerSplashScreen = Timer.new()
 	timerSplashScreen.connect("timeout", self, "_on_timer_splash_screen_timeout")
@@ -18,9 +26,16 @@ func _on_timer_splash_screen_timeout():
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	for m in range(len(music_files)):
+		var f = File.new()
+		f.open(music_files[m], File.READ)
+		var s = AudioStreamMP3.new()
+		s.data = f.get_buffer(f.get_len())
+		music_streams.append(s)
 	_set_splash_timeout()
 	current_player_chunk_pos.x = -1000
 	current_player_chunk_pos.y = -1000
+	start_music()
 
 func pos_to_chunk_pos(position):
 	var x = floor(position.x / (LevelData.CHUNK_SIZE * LevelData.TILE_SIZE))
@@ -68,6 +83,8 @@ func _process(delta):
 		$level_generator.generate_tiles(chunk_pos)
 
 func start_music():
+	current_track = (current_track + 1) % len(music_streams)
+	$BackgroundMusic.stream = music_streams[current_track]
 	$BackgroundMusic.play()
 
 func _on_BackgroundMusic_finished():
