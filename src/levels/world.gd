@@ -67,11 +67,13 @@ func pause():
 	get_tree().paused = new_pause_state
 	for c in $Menu/ScrollContainer/Collection.get_children():
 		remove_child(c)
+		c.queue_free()
 	for c in LevelData.collection:
 		var cmi = collectable.instance()
 		for size in c:
 			cmi.size = size
 			cmi.sprite = c[size]
+			print("adding sprite %s from size %s" % [str(cmi.sprite), str(cmi.size)])
 			$Menu/ScrollContainer/Collection.add_child(cmi)
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.

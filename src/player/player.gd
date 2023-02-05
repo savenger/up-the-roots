@@ -16,6 +16,7 @@ export var angular_acc := 6.0
 var is_jumping: bool = false
 var is_gliding: bool = false
 var is_moving: bool = false
+var root_travel: bool = false
 var new_glide_possible: bool = true
 var jump_timer = 0
 var glide_timer = 0
@@ -29,6 +30,7 @@ var _velocity := Vector3.ZERO
 
 onready var _camera_joint: SpringArm = $CameraJoint
 onready var _model: Spatial = $model
+onready var _climb_model: MeshInstance = $ClimbModel
 onready var _glide_particles: CPUParticles = $GlideParticles
 
 func _ready():
@@ -46,7 +48,6 @@ func _physics_process(delta):
 	var near_to_floor: bool = floor_area_count > 0
 	is_moving = move_vector.x or move_vector.z
 	var speed = default_speed
-	var root_travel = root_area_count > 0
 	if root_travel:
 		speed = root_speed
 	elif Input.is_action_pressed("run") and (near_to_floor or is_gliding):
@@ -99,6 +100,17 @@ func _process(delta):
 	if nearest_collectable:
 		$Compass.look_at(nearest_collectable, Vector3.UP)
 
+func switch_root_travel_mode_maybe():
+	var root_travel_old: bool = root_travel
+	root_travel = root_area_count > 0
+	if root_travel != root_travel_old:
+		if root_travel:
+			_model.hide()
+			_climb_model.show()
+		else:
+			_model.show()
+			_climb_model.hide()
+
 func set_nearest_collectable(collectable):
 	nearest_collectable = collectable
 	if not $Compass/CompassParticles.emitting:
@@ -107,10 +119,12 @@ func set_nearest_collectable(collectable):
 func _on_Sphere_body_entered(body: StaticBody):
 	if body.is_in_group("roots"):
 		root_area_count += 1
+		switch_root_travel_mode_maybe()
 
 func _on_Sphere_body_exited(body: StaticBody):
 	if body.is_in_group("roots"):
 		root_area_count -= 1
+		switch_root_travel_mode_maybe()
 
 func _on_AreaUnder_body_entered(body):
 	if body:
