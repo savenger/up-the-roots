@@ -32,11 +32,13 @@ onready var _camera_joint: SpringArm = $CameraJoint
 onready var _model: Spatial = $model
 onready var _climb_model: MeshInstance = $ClimbModel
 onready var _glide_particles: CPUParticles = $GlideParticles
+onready var _animation_player: AnimationPlayer = $model/AnimationPlayer
 
 func _ready():
 	LevelData.music_volume = get_parent().get_node("BackgroundMusic").volume_db
 	get_nearest_collectable_delayed()
-
+	#_animation_player.playback_speed = 1
+	_animation_player.play("ArmatureAction", 1)
 
 func _physics_process(delta):
 	if Input.is_action_just_pressed("debug"):
@@ -75,6 +77,8 @@ func _physics_process(delta):
 	_velocity = move_and_slide(_velocity, Vector3.UP, true, 2)
 
 func _process(delta):
+	if not _animation_player.is_playing():
+		_animation_player.play("ArmatureAction")
 	_camera_joint.translation = translation
 	if jump_timer > 0:
 		jump_timer -= delta

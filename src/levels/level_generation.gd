@@ -1,8 +1,10 @@
 class_name LevelGeneration extends Node
 
+const MAIN_OFFSET = 1
 const BUILDING_WIDTH = 64
 const STORY_HEIGHT = 16
 const FUNDAMENT_HEIGHT = 3.66
+const FLOOR_HEIGHT = 0.8
 var rng = RandomNumberGenerator.new()
 var building_ground = preload("res://src/levels/building_ground.tscn")
 var building_entrance = preload("res://src/levels/OfficeEntrance.tscn")
@@ -13,7 +15,8 @@ var tiles = [
 	preload("res://src/levels/city_building.tscn")
 ]
 var parks = [
-	preload("res://src/levels/Park.tscn")
+	preload("res://src/levels/Park.tscn"),
+	preload("res://src/levels/RuinTileFertig.tscn")
 ]
 var trees = [
 	preload("res://src/levels/BigTree.tscn")
@@ -34,6 +37,15 @@ var props = [
 	preload("res://src/levels/StandingDeskHighEmpty.tscn"),
 	preload("res://src/levels/StandingDeskLow.tscn"),
 	preload("res://src/levels/StandingDeskLowEmpty.tscn"),
+	preload("res://src/levels/BuschSimpleBlau.tscn"),
+	preload("res://src/levels/BuschSimpleGelb.tscn"),
+	preload("res://src/levels/Chair.tscn"),
+	preload("res://src/levels/ChairBroken.tscn"),
+	preload("res://src/levels/FLatScreen.tscn"),
+	preload("res://src/levels/Rock.tscn"),
+	preload("res://src/levels/Table.tscn"),
+	preload("res://src/levels/TableBroken.tscn"),
+	preload("res://src/levels/WoodenBox.tscn"),
 ]
 var collectables = []
 
@@ -90,19 +102,21 @@ func move_prop_randomly(prop):
 func generate_building_procedural(create_collectable):
 	# stack `height` storys together, each one rotated separately
 	var n = StaticBody.new()
-	n.add_child(building_ground.instance())
+	var g = building_ground.instance()
+	g.transform.origin.y = MAIN_OFFSET
+	n.add_child(g)
 	var inst = building_entrance.instance()
 	n.add_child(inst)
-	inst.transform.origin.y = FUNDAMENT_HEIGHT
+	inst.transform.origin.y = FUNDAMENT_HEIGHT + FLOOR_HEIGHT
 	var wd = windows[randi() % len(windows)].instance()
 	wd = apply_random_rotation(wd)
 	n.add_child(wd)
-	wd.transform.origin.y = FUNDAMENT_HEIGHT
+	wd.transform.origin.y = FUNDAMENT_HEIGHT + FLOOR_HEIGHT
 	inst = stairs_entrance.instance()
 	inst.transform.origin.y = FUNDAMENT_HEIGHT
 	n.add_child(inst)
 	var p = generate_prop()
-	p.transform.origin.y = FUNDAMENT_HEIGHT
+	p.transform.origin.y = FUNDAMENT_HEIGHT + FLOOR_HEIGHT
 	p = move_prop_randomly(p)
 	n.add_child(p)
 	var height = rng.randi() % 15 + 3
@@ -117,15 +131,16 @@ func generate_building_procedural(create_collectable):
 		var sr = storys[randi() % len(storys)].instance()
 		sr = apply_random_rotation(sr)
 		n.add_child(sr)
-		sr.transform.origin.y = current_height
+		sr.transform.origin.y = current_height + FLOOR_HEIGHT
+		sr.scale.y = 0.95
 		wd = windows[randi() % len(windows)].instance()
 		wd = apply_random_rotation(wd)
 		n.add_child(wd)
-		wd.transform.origin.y = current_height
+		wd.transform.origin.y = current_height  + FLOOR_HEIGHT
 		
 		p = generate_prop()
 		p = apply_random_rotation(p)
-		p.transform.origin.y = current_height
+		p.transform.origin.y = current_height + FLOOR_HEIGHT
 		p = move_prop_randomly(p)
 		n.add_child(p)
 		
@@ -144,7 +159,9 @@ func generate_building_procedural(create_collectable):
 func generate_building(create_collectable: bool):
 	var use_static = (rng.randf_range(0, 10.0) <= 1.0)
 	if use_static:
-		return tiles[randi() % len(tiles)].instance()
+		var s = tiles[randi() % len(tiles)].instance() 
+		s.transform.origin.y = MAIN_OFFSET
+		return s
 	return generate_building_procedural(create_collectable)
 
 
@@ -177,6 +194,7 @@ func get_random_tile(create_collectable: bool):
 			t = generate_building(create_collectable)
 		else:
 			t = generate_park()
+			t.transform.origin.y = MAIN_OFFSET
 	
 	t = apply_random_rotation(t)
 	return t

@@ -1,5 +1,6 @@
 [gd_scene load_steps=10 format=2]
 
+
 [ext_resource path="res://src/levels/world.gd" type="Script" id=1]
 [ext_resource path="res://assets/splashscreen_spielwerker.png" type="Texture" id=2]
 [ext_resource path="res://src/levels/level_generation.gd" type="Script" id=3]
@@ -14,6 +15,9 @@ colors = PoolColorArray( 0, 0, 0, 0, 0.048731, 0.048731, 0.048731, 0.457143, 0, 
 gradient = SubResource( 9 )
 width = 365
 height = 676
+
+[ext_resource path="res://assets/keys.png" type="Texture" id=5]
+
 
 [sub_resource type="ProceduralSky" id=8]
 sky_top_color = Color( 0.945098, 0.905882, 0.858824, 1 )
@@ -43,27 +47,23 @@ pause_mode = 2
 script = ExtResource( 1 )
 
 [node name="Menu" type="CanvasLayer" parent="."]
-
-[node name="SideShadow" type="TextureRect" parent="Menu"]
-margin_left = 692.0
-margin_top = -25.0
-margin_right = 1057.0
-margin_bottom = 651.0
-texture = SubResource( 10 )
+visible = false
 
 [node name="ScrollContainer" type="ScrollContainer" parent="Menu"]
 anchor_left = 1.0
 anchor_right = 1.0
-margin_left = -150.0
+margin_left = -372.0
 margin_bottom = 600.0
 rect_min_size = Vector2( 150, 0 )
 
-[node name="Collection" type="VBoxContainer" parent="Menu/ScrollContainer"]
-margin_right = 150.0
+[node name="Collection" type="GridContainer" parent="Menu/ScrollContainer"]
+margin_right = 372.0
 margin_bottom = 600.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
-custom_constants/separation = 75
+custom_constants/vseparation = 100
+custom_constants/hseparation = 100
+columns = 3
 
 [node name="Container" type="Control" parent="Menu"]
 anchor_left = 0.5
@@ -80,11 +80,13 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-margin_left = -333.0
-margin_top = -206.0
-margin_right = 333.0
-margin_bottom = 206.0
-texture = ExtResource( 2 )
+margin_left = -513.5
+margin_top = -293.0
+margin_right = 1646.5
+margin_bottom = 1327.0
+rect_scale = Vector2( 0.3, 0.3 )
+texture = ExtResource( 5 )
+stretch_mode = 5
 
 [node name="VBoxContainer" type="VBoxContainer" parent="Menu/Container"]
 anchor_left = 0.5
@@ -156,11 +158,14 @@ light_color = Color( 0.913725, 0.756863, 0.505882, 1 )
 
 [node name="BackgroundMusic" type="AudioStreamPlayer" parent="."]
 
+
 [node name="ASP_Wind" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 6 )
 volume_db = -10.0
 autoplay = true
 bus = "Wind"
+
+
 
 [connection signal="pressed" from="Menu/Container/VBoxContainer/VBoxContainer/btnVolumeUp" to="." method="_on_btnVolumeUp_pressed"]
 [connection signal="pressed" from="Menu/Container/VBoxContainer/VBoxContainer/btnVolumeDown" to="." method="_on_btnVolumeDown_pressed"]
