@@ -1,11 +1,16 @@
 extends Node
 var map = {}
 var collectable_locations = []
-var collection = [
-	{0: 1},
-	{1: 1},
-	{2: 1}
-]
+var collection = {
+	0: [],
+	1: [],
+	2: []
+}
+var collectable_count = {
+	0: 20,
+	1: 7,
+	2: 4
+}
 const CHUNK_SIZE = 4
 const TILE_SIZE = 128
 var base_volume : int = 0

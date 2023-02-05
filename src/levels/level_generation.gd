@@ -3,11 +3,6 @@ class_name LevelGeneration extends Node
 const BUILDING_WIDTH = 64
 const STORY_HEIGHT = 16
 const FUNDAMENT_HEIGHT = 3.66
-var collectable_count = {
-	0: 20,
-	1: 7,
-	2: 4
-}
 var rng = RandomNumberGenerator.new()
 var building_ground = preload("res://src/levels/building_ground.tscn")
 var building_entrance = preload("res://src/levels/OfficeEntrance.tscn")
@@ -72,7 +67,7 @@ func generate_collectable():
 	var c = collectables[randi() % len(collectables)].instance()
 	var r = rng.randi() % 3
 	c.size = r
-	c.sprite = rng.randi() % collectable_count[r]
+	c.sprite = rng.randi() % LevelData.collectable_count[r]
 	return c
 
 func generate_prop():

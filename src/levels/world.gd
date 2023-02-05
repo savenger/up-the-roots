@@ -4,6 +4,8 @@ var current_player_chunk_pos: Vector2
 var cb = preload("res://src/levels/city_building.tscn")
 var collectable = preload("res://src/collectables/collectable_menu_item.tscn")
 
+onready var _menu = $Menu/ScrollContainer/Collection
+
 var current_track = 0
 var music_files = [
 	"res://assets/audio/anotherSunrise.mp3",
@@ -65,16 +67,17 @@ func pause():
 		Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 	print("get_tree().paused: {paused}".format({"paused": get_tree().paused}))
 	get_tree().paused = new_pause_state
-	for c in $Menu/ScrollContainer/Collection.get_children():
-		remove_child(c)
+	for c in _menu.get_children():
+		_menu.remove_child(c)
 		c.queue_free()
-	for c in LevelData.collection:
-		var cmi = collectable.instance()
-		for size in c:
+	for size in range(3):
+		for c in LevelData.collectable_count[size]:
+			var cmi = collectable.instance()
+			cmi.found = (c in LevelData.collection[size])
 			cmi.size = size
-			cmi.sprite = c[size]
+			cmi.sprite = c
 			print("adding sprite %s from size %s" % [str(cmi.sprite), str(cmi.size)])
-			$Menu/ScrollContainer/Collection.add_child(cmi)
+			_menu.add_child(cmi)
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):

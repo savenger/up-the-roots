@@ -93,13 +93,18 @@ func _process(delta):
 	else:
 		_glide_particles.hide()
 	if glide_timer > 0:
-		is_gliding = Input.is_action_pressed("jump")
+		is_gliding = Input.is_action_pressed("jump") and not root_travel
 	else:
 		is_gliding = false
 	if Input.is_action_just_released("jump"):
 		jump_timer = 0
 	if nearest_collectable:
 		$Compass.look_at(nearest_collectable, Vector3.UP)
+
+func stop_glide():
+	new_glide_possible = true
+	glide_timer = 0
+	is_gliding = false
 
 func switch_root_travel_mode_maybe():
 	var root_travel_old: bool = root_travel
@@ -108,6 +113,7 @@ func switch_root_travel_mode_maybe():
 		if root_travel:
 			_model.hide()
 			_climb_model.show()
+			stop_glide()
 		else:
 			_model.show()
 			_climb_model.hide()
@@ -130,9 +136,7 @@ func _on_Sphere_body_exited(body: StaticBody):
 func _on_AreaUnder_body_entered(body):
 	if body:
 		if body.get_class() == "StaticBody":
-			new_glide_possible = true
-			glide_timer = 0
-			is_gliding = false
+			stop_glide()
 			floor_area_count += 1
 
 func _on_AreaUnder_body_exited(body):
@@ -144,7 +148,8 @@ func collect(size: int, sprite: int):
 	$Compass/CompassParticles.emitting = false
 	$CollectionParticles.emitting = true
 	get_nearest_collectable_delayed()
-	LevelData.collection.append({size: sprite})
+	if not sprite in LevelData.collection[size]:
+		LevelData.collection[size].append(sprite)
 
 func get_nearest_collectable_delayed():
 	var timer = Timer.new()
