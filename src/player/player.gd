@@ -22,6 +22,8 @@ var glide_timer = 0
 var root_area_count: int = 0
 var floor_area_count: int = 0
 var nearest_collectable = null
+var base_volume : int = 0
+var music_volume : int = -20
 
 signal debug_output
 
@@ -30,7 +32,19 @@ var _velocity := Vector3.ZERO
 onready var _camera_joint: SpringArm = $CameraJoint
 onready var _model: Spatial = $model
 
+func _ready():
+	music_volume = get_parent().get_node("BackgroundMusic").volume_db
+
+func adjust_volume():
+	get_parent().get_node("BackgroundMusic").volume_db = music_volume + base_volume
+
 func _physics_process(delta):
+	if Input.is_action_just_released("volume_up"):
+		base_volume +=  5
+		adjust_volume()
+	if Input.is_action_just_released("volume_down"):
+		base_volume -=  5
+		adjust_volume()
 	if Input.is_action_just_pressed("debug"):
 		emit_signal("debug_output")
 	var move_vector := Vector3.ZERO

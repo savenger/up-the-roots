@@ -46,3 +46,14 @@ func _process(delta):
 		current_player_chunk_pos = chunk_pos
 		$Player.set_nearest_collectable(get_nearest_collectable($Player.global_transform.origin))
 		$level_generator.generate_tiles(chunk_pos)
+
+func start_music():
+	$BackgroundMusic.play()
+
+func _on_BackgroundMusic_finished():
+	var timer = Timer.new()
+	add_child(timer)
+	timer.connect("timeout", self, "start_music")
+	timer.one_shot = true
+	timer.wait_time = 0.1
+	timer.start()
