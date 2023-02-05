@@ -73,6 +73,7 @@ margin = 0.2
 script = ExtResource( 2 )
 
 [node name="Camera" type="Camera" parent="CameraJoint"]
+transform = Transform( 1, 0, 0, 0, 0.971114, -0.238618, 0, 0.238618, 0.971114, 0, 0, 0 )
 far = 7443.2
 
 [node name="Sphere" type="Area" parent="."]
