@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=2]
+[gd_scene load_steps=15 format=2]
 
 [ext_resource path="res://src/player/player.gd" type="Script" id=1]
 [ext_resource path="res://src/player/camera_joint.gd" type="Script" id=2]
@@ -48,15 +48,14 @@ material = SubResource( 6 )
 radius = 0.02
 height = 0.04
 
-[sub_resource type="SpatialMaterial" id=9]
-albedo_color = Color( 0.635294, 0.745098, 0.662745, 1 )
-metallic = 0.32
-metallic_specular = 0.37
+[sub_resource type="SpatialMaterial" id=12]
+flags_transparent = true
+params_billboard_mode = 1
+albedo_texture = ExtResource( 4 )
 
-[sub_resource type="SphereMesh" id=8]
-material = SubResource( 9 )
-radius = 0.8
-height = 1.6
+[sub_resource type="QuadMesh" id=13]
+material = SubResource( 12 )
+size = Vector2( 2, 2 )
 
 [node name="Player" type="KinematicBody"]
 script = ExtResource( 1 )
@@ -148,7 +147,7 @@ scale_amount_random = 0.61
 
 [node name="ClimbModel" type="MeshInstance" parent="."]
 visible = false
-mesh = SubResource( 8 )
+mesh = SubResource( 13 )
 
 [connection signal="body_entered" from="Sphere" to="." method="_on_Sphere_body_entered"]
 [connection signal="body_exited" from="Sphere" to="." method="_on_Sphere_body_exited"]
