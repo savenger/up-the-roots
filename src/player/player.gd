@@ -1,21 +1,21 @@
 extends KinematicBody
 
 export var default_speed := 30.0
-export var run_speed := 500.0
+export var run_speed := 120.0
 export var root_speed := 10.0
-export var default_acc := 10.0
-export var run_acc := 2.0
+export var acc := 10.0
 export var jump_strength := 300.0
-export var root_travel_speed := 20.0
+export var root_vertical_speed := 20.0
 export var jump_acc := 4.0
 export var default_gravity := 400.0
 export var glide_gravity := 25.0
 export var max_jump_time := 0.3
-export var max_glide_time := 2.5
+export var max_glide_time := 3
 export var angular_acc := 6.0
 
 var is_jumping: bool = false
 var is_gliding: bool = false
+var is_moving: bool = false
 var new_glide_possible: bool = true
 var jump_timer = 0
 var glide_timer = 0
@@ -37,25 +37,24 @@ func _physics_process(delta):
 	move_vector.x = Input.get_action_strength("right") - Input.get_action_strength("left")
 	move_vector.z = Input.get_action_strength("back") - Input.get_action_strength("forward")
 	move_vector = move_vector.rotated(Vector3.UP, _camera_joint.rotation.y).normalized()
-	var is_moving: bool = move_vector.x or move_vector.z
+	var near_to_floor: bool = floor_area_count > 0
+	is_moving = move_vector.x or move_vector.z
 	var speed = default_speed
-	var acc = default_acc
 	var root_travel = root_area_count > 0
 	if root_travel:
 		speed = root_speed
-	elif Input.is_action_pressed("run"):
+	elif Input.is_action_pressed("run") and (near_to_floor or is_gliding):
 		speed = run_speed
-		acc = run_acc
 	move_vector *= speed
 	if root_travel:
-		move_vector.y = (Input.get_action_strength("jump") - Input.get_action_strength("run")) * root_travel_speed
+		move_vector.y = (Input.get_action_strength("jump") - Input.get_action_strength("run")) * root_vertical_speed
 	else:
 		if not is_on_floor():
 			var gravity = default_gravity
 			if is_gliding:
 				gravity = glide_gravity
 			_velocity.y -= gravity * delta
-	var jump_now := floor_area_count > 0 and Input.is_action_just_pressed("jump")
+	var jump_now := near_to_floor and Input.is_action_just_pressed("jump")
 	if jump_now:
 		is_jumping = true
 		jump_timer = max_jump_time
@@ -76,7 +75,10 @@ func _process(delta):
 		glide_timer = max_glide_time
 		is_gliding = true
 	if is_gliding:
-		glide_timer -= delta
+		var m = 1
+		if Input.is_action_pressed("run") and is_moving:
+			m = run_speed / default_speed
+		glide_timer -= delta * m
 	if glide_timer > 0:
 		is_gliding = Input.is_action_pressed("jump")
 	else:
