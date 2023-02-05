@@ -11,7 +11,7 @@ var collectable_count = {
 	1: 7,
 	2: 4
 }
-const CHUNK_SIZE = 1
+const CHUNK_SIZE = 4
 const TILE_SIZE = 128
 var base_volume : int = 0
 var music_volume : int = -20

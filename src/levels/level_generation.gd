@@ -15,7 +15,8 @@ var tiles = [
 	preload("res://src/levels/city_building.tscn")
 ]
 var parks = [
-	preload("res://src/levels/Park.tscn")
+	preload("res://src/levels/Park.tscn"),
+	preload("res://src/levels/RuinTileFertig.tscn")
 ]
 var trees = [
 	preload("res://src/levels/BigTree.tscn")
@@ -36,6 +37,15 @@ var props = [
 	preload("res://src/levels/StandingDeskHighEmpty.tscn"),
 	preload("res://src/levels/StandingDeskLow.tscn"),
 	preload("res://src/levels/StandingDeskLowEmpty.tscn"),
+	preload("res://src/levels/BuschSimpleBlau.tscn"),
+	preload("res://src/levels/BuschSimpleGelb.tscn"),
+	preload("res://src/levels/Chair.tscn"),
+	preload("res://src/levels/ChairBroken.tscn"),
+	preload("res://src/levels/FLatScreen.tscn"),
+	preload("res://src/levels/Rock.tscn"),
+	preload("res://src/levels/Table.tscn"),
+	preload("res://src/levels/TableBroken.tscn"),
+	preload("res://src/levels/WoodenBox.tscn"),
 ]
 var collectables = []
 
@@ -149,7 +159,9 @@ func generate_building_procedural(create_collectable):
 func generate_building(create_collectable: bool):
 	var use_static = (rng.randf_range(0, 10.0) <= 1.0)
 	if use_static:
-		return tiles[randi() % len(tiles)].instance()
+		var s = tiles[randi() % len(tiles)].instance() 
+		s.transform.origin.y = MAIN_OFFSET
+		return s
 	return generate_building_procedural(create_collectable)
 
 
@@ -182,6 +194,7 @@ func get_random_tile(create_collectable: bool):
 			t = generate_building(create_collectable)
 		else:
 			t = generate_park()
+			t.transform.origin.y = MAIN_OFFSET
 	
 	t = apply_random_rotation(t)
 	return t
