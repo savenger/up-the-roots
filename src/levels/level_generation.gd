@@ -19,7 +19,8 @@ var parks = [
 	preload("res://src/levels/RuinTileFertig.tscn")
 ]
 var trees = [
-	preload("res://src/levels/BigTree.tscn")
+	preload("res://src/levels/BigTree.tscn"),
+	preload("res://src/levels/BigTree2.tscn")
 ]
 var windows = [
 	preload("res://src/levels/Windows.tscn"),
