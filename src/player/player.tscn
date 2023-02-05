@@ -1,9 +1,11 @@
-[gd_scene load_steps=15 format=2]
+[gd_scene load_steps=17 format=2]
 
 [ext_resource path="res://src/player/player.gd" type="Script" id=1]
 [ext_resource path="res://src/player/camera_joint.gd" type="Script" id=2]
 [ext_resource path="res://src/player/Character.tscn" type="PackedScene" id=3]
 [ext_resource path="res://assets/sprite_guide.png" type="Texture" id=4]
+[ext_resource path="res://assets/audio/sfx/achievement.wav" type="AudioStream" id=5]
+[ext_resource path="res://assets/audio/sfx/jump.wav" type="AudioStream" id=6]
 
 [sub_resource type="CapsuleShape" id=1]
 
@@ -148,6 +150,16 @@ scale_amount_random = 0.61
 [node name="ClimbModel" type="MeshInstance" parent="."]
 visible = false
 mesh = SubResource( 13 )
+
+[node name="ASP_Achievement" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 5 )
+
+[node name="ASP_Sprint" type="AudioStreamPlayer" parent="."]
+
+[node name="ASP_Jump" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 6 )
+
+[node name="AudioStreamPlayer3" type="AudioStreamPlayer" parent="."]
 
 [connection signal="body_entered" from="Sphere" to="." method="_on_Sphere_body_entered"]
 [connection signal="body_exited" from="Sphere" to="." method="_on_Sphere_body_exited"]

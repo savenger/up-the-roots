@@ -6,8 +6,8 @@ var collectable = preload("res://src/collectables/collectable_menu_item.tscn")
 
 var current_track = 0
 var music_files = [
-	"res://assets/audio/another_sunrise.mp3",
-	"res://assets/audio/roots-melancholy.mp3",
+	"res://assets/audio/anotherSunrise.mp3",
+	"res://assets/audio/melancholy.mp3",
 	"res://assets/audio/tragedy.mp3"
 ]
 var music_streams = []
@@ -92,6 +92,8 @@ func _process(delta):
 		current_player_chunk_pos = chunk_pos
 		$Player.set_nearest_collectable(get_nearest_collectable($Player.global_transform.origin))
 		$level_generator.generate_tiles(chunk_pos)
+	
+	AudioServer.get_bus_effect(AudioServer.get_bus_index("Wind"), 1).cutoff_hz = $Player.global_transform.origin.y * 40 + 80
 
 func start_music():
 	current_track = (current_track + 1) % len(music_streams)

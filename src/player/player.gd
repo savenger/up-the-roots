@@ -63,6 +63,7 @@ func _physics_process(delta):
 			_velocity.y -= gravity * delta
 	var jump_now := near_to_floor and Input.is_action_just_pressed("jump")
 	if jump_now:
+		playSFX("jump")
 		is_jumping = true
 		jump_timer = max_jump_time
 	is_jumping = is_jumping and Input.is_action_pressed("jump") and jump_timer > 0
@@ -155,3 +156,14 @@ func get_nearest_collectable_delayed():
 
 func get_nearest_collectable():
 	set_nearest_collectable(get_parent().get_nearest_collectable(global_transform.origin))
+	
+func playSFX(sfx_id):
+	match sfx_id:
+		"achievement":
+			get_node("ASP_Achievement").play()
+		"sprint":
+			get_node("ASP_Sprint").play()
+		"jump":
+			get_node("ASP_Jump").pitch_scale = rand_range(0.7, 1.2)
+			get_node("ASP_Jump").play()
+	
