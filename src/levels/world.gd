@@ -54,6 +54,11 @@ func pause():
 func _process(delta):
 	var chunk_pos: Vector2 = pos_to_chunk_pos($Player.global_transform.origin)
 	
+	if Input.is_action_just_released("volume_up"):
+		LevelData.volume_up()
+	if Input.is_action_just_released("volume_down"):
+		LevelData.volume_down()
+	
 	if Input.is_action_just_pressed("menu"):
 		pause()
 	
