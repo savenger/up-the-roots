@@ -2,6 +2,7 @@ extends Spatial
 
 var current_player_chunk_pos: Vector2
 var cb = preload("res://src/levels/city_building.tscn")
+var collectable = preload("res://src/collectables/collectable_menu_item.tscn")
 
 var current_track = 0
 var music_files = [
@@ -64,6 +65,14 @@ func pause():
 		Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 	print("get_tree().paused: {paused}".format({"paused": get_tree().paused}))
 	get_tree().paused = new_pause_state
+	for c in $Menu/ScrollContainer/Collection.get_children():
+		remove_child(c)
+	for c in LevelData.collection:
+		var cmi = collectable.instance()
+		for size in c:
+			cmi.size = size
+			cmi.sprite = c[size]
+			$Menu/ScrollContainer/Collection.add_child(cmi)
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):

@@ -129,6 +129,7 @@ func collect(size: int, sprite: int):
 	$Compass/CompassParticles.emitting = false
 	$CollectionParticles.emitting = true
 	get_nearest_collectable_delayed()
+	LevelData.collection.append({size: sprite})
 
 func get_nearest_collectable_delayed():
 	var timer = Timer.new()
