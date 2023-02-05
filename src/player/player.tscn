@@ -61,14 +61,17 @@ transform = Transform( 0.65, 0, 0, 0, 0.65, 0, 0, 0, 0.65, 0, -1.229, 0 )
 [node name="Compass" type="Spatial" parent="."]
 
 [node name="CompassParticles" type="CPUParticles" parent="Compass"]
+transform = Transform( -1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 0, 0 )
 amount = 20
 randomness = 1.0
 mesh = SubResource( 5 )
 emission_shape = 2
 emission_box_extents = Vector3( 1, 1, 1 )
+direction = Vector3( 0, 0, 0 )
 spread = 0.0
 flatness = 0.54
-gravity = Vector3( 10, 0, 0 )
+gravity = Vector3( 0, 0, 0 )
+initial_velocity = 5.0
 anim_speed = 2.0
 anim_speed_random = 0.39
 anim_offset = 0.56

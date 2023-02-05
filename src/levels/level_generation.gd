@@ -80,8 +80,8 @@ func generate_building_procedural(create_collectable):
 	n.add_child(inst)
 	if create_collectable:
 		var c = generate_collectable()
-		c.transform.origin.y = 10
 		n.add_child(c)
+		c.transform.origin.y = 10
 	var height = rng.randi() % 15 + 3
 	var current_height = STORY_HEIGHT + FUNDAMENT_HEIGHT
 	for s in range(height):
@@ -132,10 +132,13 @@ func get_random_tile(create_collectable: bool):
 	# generate either a building or a park
 	var r = rng.randf_range(0, 2.0)
 	var t = null
-	if r <= 1.0:
+	if create_collectable:
 		t = generate_building(create_collectable)
 	else:
-		t = generate_park()
+		if r <= 1.0:
+			t = generate_building(create_collectable)
+		else:
+			t = generate_park()
 	
 	t = apply_random_rotation(t)
 	return t
@@ -153,7 +156,7 @@ func generate_tiles_in_chunk(chunk_position):
 			t.global_transform.origin.x = chunk_position.x * LevelData.CHUNK_SIZE * LevelData.TILE_SIZE + x * LevelData.TILE_SIZE - LevelData.TILE_SIZE / 2
 			t.global_transform.origin.z = chunk_position.y * LevelData.CHUNK_SIZE * LevelData.TILE_SIZE + z * LevelData.TILE_SIZE - LevelData.TILE_SIZE / 2
 			if create_collectable:
-				LevelData.collectable_locations.append(t.global_transform.origin)
+				LevelData.collectable_locations.append(t.global_transform.origin + Vector3(0, 10, 0))
 				print("collectable is here: %s, %s" % [str(t.global_transform.origin.x), str(t.global_transform.origin.z)])
 			#if x == 0 and z == 0:
 			#	print("that is: %s, %s" % [str(t.global_transform.origin.x), str(t.global_transform.origin.z)])
