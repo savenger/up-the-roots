@@ -70,11 +70,12 @@ func pause():
 	for c in _menu.get_children():
 		_menu.remove_child(c)
 		c.queue_free()
-	for c in LevelData.collection:
-		var cmi = collectable.instance()
-		for size in c:
+	for size in range(3):
+		for c in LevelData.collectable_count[size]:
+			var cmi = collectable.instance()
+			cmi.found = (c in LevelData.collection[size])
 			cmi.size = size
-			cmi.sprite = c[size]
+			cmi.sprite = c
 			print("adding sprite %s from size %s" % [str(cmi.sprite), str(cmi.size)])
 			_menu.add_child(cmi)
 

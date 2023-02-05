@@ -1,16 +1,17 @@
-extends Control
+extends CenterContainer
 
 export var size: int
 export var sprite: int
+export var found: bool
 
 var hframes = {
-	0: 10,
+	0: 8,
 	1: 4,
 	2: 4
 }
 
 var vframes = {
-	0: 7,
+	0: 3,
 	1: 2,
 	2: 1
 }
@@ -28,9 +29,15 @@ var assets = {
 }
 
 var region_rects = {
-	0: Rect2(0, 150, 3000, 2400),
+	0: Rect2(0, 150, 2400, 900),
 	1: Rect2(0, 150, 2400, 1200),
 	2: Rect2(0, 150, 2400, 900)
+}
+
+var scale_factor = {
+	0: 0.2,
+	1: 0.15,
+	2: 0.1
 }
 
 # Called when the node enters the scene tree for the first time.
@@ -41,3 +48,6 @@ func _ready():
 	$Sprite.hframes = hframes[size]
 	$Sprite.vframes = vframes[size]
 	$Sprite.frame = sprite
+	$Sprite.scale = Vector2(scale_factor[size], scale_factor[size])
+	if found:
+		$Sprite.set_material(null)
