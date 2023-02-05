@@ -111,6 +111,8 @@ func _process(delta):
 
 func set_nearest_collectable(collectable):
 	nearest_collectable = collectable
+	if not $Compass/CompassParticles.emitting:
+		$Compass/CompassParticles.emitting = true
 
 func _on_Sphere_body_entered(body: StaticBody):
 	if body.is_in_group("roots"):
@@ -134,6 +136,7 @@ func _on_AreaUnder_body_exited(body):
 			floor_area_count -= 1
 
 func collect(size: int, sprite: int):
+	$Compass/CompassParticles.emitting = false
 	$CollectionParticles.emitting = true
 	get_nearest_collectable_delayed()
 
