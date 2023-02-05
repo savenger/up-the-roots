@@ -34,4 +34,5 @@ func _on_Area_body_entered(body):
 	LevelData.collectable_locations.remove(i)
 	if body.name == "Player":
 		body.collect(size, sprite)
+		body.playSFX("achievement");
 	queue_free()
