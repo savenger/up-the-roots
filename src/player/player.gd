@@ -1,16 +1,16 @@
 extends KinematicBody
 
-export var default_speed := 30.0
-export var run_speed := 120.0
+export var default_speed := 20.0
+export var run_speed := 60.0
 export var root_speed := 10.0
 export var acc := 10.0
-export var jump_strength := 300.0
+export var jump_strength := 100.0
 export var root_vertical_speed := 20.0
-export var jump_acc := 4.0
+export var jump_acc := 8.0
 export var default_gravity := 400.0
 export var glide_gravity := 25.0
 export var max_jump_time := 0.3
-export var max_glide_time := 3
+export var max_glide_time := 6.0
 export var angular_acc := 6.0
 
 var is_jumping: bool = false
@@ -31,6 +31,7 @@ var _velocity := Vector3.ZERO
 
 onready var _camera_joint: SpringArm = $CameraJoint
 onready var _model: Spatial = $model
+onready var _glide_particles: CPUParticles = $GlideParticles
 
 func _ready():
 	music_volume = get_parent().get_node("BackgroundMusic").volume_db
@@ -88,11 +89,16 @@ func _process(delta):
 		new_glide_possible = false
 		glide_timer = max_glide_time
 		is_gliding = true
+	if is_on_floor():
+		is_gliding = false
 	if is_gliding:
 		var m = 1
+		_glide_particles.show()
 		if Input.is_action_pressed("run") and is_moving:
 			m = run_speed / default_speed
 		glide_timer -= delta * m
+	else:
+		_glide_particles.hide()
 	if glide_timer > 0:
 		is_gliding = Input.is_action_pressed("jump")
 	else:

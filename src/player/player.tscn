@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=10 format=2]
 
 [ext_resource path="res://src/player/player.gd" type="Script" id=1]
 [ext_resource path="res://src/player/camera_joint.gd" type="Script" id=2]
@@ -25,6 +25,19 @@ emission_on_uv2 = false
 material = SubResource( 4 )
 radius = 0.1
 height = 0.2
+
+[sub_resource type="SpatialMaterial" id=6]
+albedo_color = Color( 0.54902, 0.517647, 1, 1 )
+emission_enabled = true
+emission = Color( 0.423529, 0.580392, 0.901961, 1 )
+emission_energy = 1.0
+emission_operator = 0
+emission_on_uv2 = false
+
+[sub_resource type="SphereMesh" id=7]
+material = SubResource( 6 )
+radius = 0.02
+height = 0.04
 
 [node name="Player" type="KinematicBody"]
 script = ExtResource( 1 )
@@ -76,6 +89,17 @@ anim_speed = 2.0
 anim_speed_random = 0.39
 anim_offset = 0.56
 anim_offset_random = 0.92
+
+[node name="GlideParticles" type="CPUParticles" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.847803, 0 )
+amount = 100
+lifetime = 0.82
+explosiveness = 0.23
+randomness = 0.2
+lifetime_randomness = 0.26
+mesh = SubResource( 7 )
+emission_shape = 1
+emission_sphere_radius = 1.0
 
 [connection signal="body_entered" from="Sphere" to="." method="_on_Sphere_body_entered"]
 [connection signal="body_exited" from="Sphere" to="." method="_on_Sphere_body_exited"]
