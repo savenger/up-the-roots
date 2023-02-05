@@ -81,11 +81,12 @@ func generate_building_procedural(create_collectable):
 	inst = stairs_entrance.instance()
 	inst.transform.origin.y = FUNDAMENT_HEIGHT
 	n.add_child(inst)
+	var height = rng.randi() % 15 + 3
 	if create_collectable:
 		var c = generate_collectable()
 		n.add_child(c)
-		c.transform.origin.y = 10
-	var height = rng.randi() % 15 + 3
+		c.transform.origin.y = 10 + STORY_HEIGHT * (rng.randi() % height)
+	
 	var current_height = STORY_HEIGHT + FUNDAMENT_HEIGHT
 	for s in range(height):
 		var sr = storys[randi() % len(storys)].instance()
@@ -161,8 +162,13 @@ func generate_tiles_in_chunk(chunk_position):
 			t.global_transform.origin.x = chunk_position.x * LevelData.CHUNK_SIZE * LevelData.TILE_SIZE + x * LevelData.TILE_SIZE - LevelData.TILE_SIZE / 2
 			t.global_transform.origin.z = chunk_position.y * LevelData.CHUNK_SIZE * LevelData.TILE_SIZE + z * LevelData.TILE_SIZE - LevelData.TILE_SIZE / 2
 			if create_collectable:
-				LevelData.collectable_locations.append(t.global_transform.origin + Vector3(0, 10, 0))
-				print("collectable is here: %s, %s" % [str(t.global_transform.origin.x), str(t.global_transform.origin.z)])
+				var height = 0
+				for c in t.get_children():
+					if c.name == "Collectable":
+						height = c.transform.origin.y
+						break
+				LevelData.collectable_locations.append(t.global_transform.origin + Vector3(0, height, 0))
+				print("collectable is here: x:%s, y:%s, z:%s" % [str(t.global_transform.origin.x), str(t.global_transform.origin.y), str(t.global_transform.origin.z)])
 			#if x == 0 and z == 0:
 			#	print("that is: %s, %s" % [str(t.global_transform.origin.x), str(t.global_transform.origin.z)])
 	# place tree between two random tiles
