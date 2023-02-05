@@ -17,7 +17,7 @@ var tiles = [
 	preload("res://src/levels/city_building.tscn")
 ]
 var parks = [
-	preload("res://src/levels/building_ground.tscn")
+	preload("res://src/levels/Park.tscn")
 ]
 var windows = [
 	preload("res://src/levels/Windows.tscn"),
@@ -130,12 +130,12 @@ func apply_random_rotation(o):
 
 func get_random_tile(create_collectable: bool):
 	# generate either a building or a park
-	var r = rng.randf_range(0, 2.0)
+	var r = rng.randf_range(0, 10.0)
 	var t = null
 	if create_collectable:
 		t = generate_building(create_collectable)
 	else:
-		if r <= 1.0:
+		if r <= 9.0:
 			t = generate_building(create_collectable)
 		else:
 			t = generate_park()

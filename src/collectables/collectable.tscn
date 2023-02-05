@@ -91,6 +91,8 @@ height = 1.0
 script = ExtResource( 2 )
 
 [node name="StaticBody" type="StaticBody" parent="."]
+collision_layer = 2
+collision_mask = 2
 
 [node name="MeshInstance" type="MeshInstance" parent="StaticBody"]
 transform = Transform( 2.49872, 0, 0, 0, 2.49872, 0, 0, 0, 0.189903, 0, 0, 0 )
@@ -105,16 +107,18 @@ mesh = SubResource( 1 )
 skeleton = NodePath("../..")
 material/0 = SubResource( 2 )
 
-[node name="CollisionShapeSmall" type="CollisionShape" parent="StaticBody"]
+[node name="Area" type="Area" parent="StaticBody"]
+
+[node name="CollisionShapeSmall" type="CollisionShape" parent="StaticBody/Area"]
 transform = Transform( 1.47891, 0, 0, 0, 0.888304, 0, 0, 0, 0.18, 0, 0, 0 )
 shape = SubResource( 12 )
 
-[node name="CollisionShapeMiddle" type="CollisionShape" parent="StaticBody"]
+[node name="CollisionShapeMiddle" type="CollisionShape" parent="StaticBody/Area"]
 transform = Transform( 1.28758, 0, 0, 0, 0.95676, 0, 0, 0, 0.18, 0, 0, 0 )
 visible = false
 shape = SubResource( 13 )
 
-[node name="CollisionShapeLarge" type="CollisionShape" parent="StaticBody"]
+[node name="CollisionShapeLarge" type="CollisionShape" parent="StaticBody/Area"]
 transform = Transform( 2.90977, 0, 0, 0, 2.50269, 0, 0, 0, 0.180194, 0, 0, 0 )
 visible = false
 shape = SubResource( 14 )
@@ -168,3 +172,5 @@ emission_box_extents = Vector3( 3, 2, 3 )
 gravity = Vector3( 0, 9.8, 0 )
 scale_amount = 0.1
 scale_amount_random = 0.24
+
+[connection signal="body_entered" from="StaticBody/Area" to="." method="_on_Area_body_entered"]
