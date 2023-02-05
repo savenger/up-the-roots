@@ -44,6 +44,7 @@ pause_mode = 2
 script = ExtResource( 1 )
 
 [node name="Menu" type="CanvasLayer" parent="."]
+visible = false
 
 [node name="TextureRect" type="TextureRect" parent="Menu"]
 margin_left = 672.0
