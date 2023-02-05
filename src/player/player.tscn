@@ -51,6 +51,7 @@ height = 0.04
 [sub_resource type="SpatialMaterial" id=12]
 flags_transparent = true
 params_billboard_mode = 1
+albedo_color = Color( 0.894118, 1, 0.556863, 1 )
 albedo_texture = ExtResource( 4 )
 
 [sub_resource type="QuadMesh" id=13]
