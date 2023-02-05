@@ -124,6 +124,7 @@ visible = false
 shape = SubResource( 14 )
 
 [node name="SmallCollectable" type="Sprite3D" parent="StaticBody"]
+billboard = 1
 texture = ExtResource( 3 )
 hframes = 10
 vframes = 7
@@ -132,6 +133,7 @@ region_rect = Rect2( 0, 150, 3000, 2100 )
 
 [node name="MiddleCollectable" type="Sprite3D" parent="StaticBody"]
 visible = false
+billboard = 1
 texture = ExtResource( 4 )
 hframes = 4
 vframes = 2
@@ -140,6 +142,7 @@ region_rect = Rect2( 0, 150, 2400, 1200 )
 
 [node name="LargeCollectable" type="Sprite3D" parent="StaticBody"]
 visible = false
+billboard = 1
 texture = ExtResource( 5 )
 hframes = 4
 frame = 3

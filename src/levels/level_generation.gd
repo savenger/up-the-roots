@@ -1,5 +1,6 @@
 class_name LevelGeneration extends Node
 
+const BUILDING_WIDTH = 64
 const STORY_HEIGHT = 16
 const FUNDAMENT_HEIGHT = 3.66
 var collectable_count = {
@@ -30,6 +31,14 @@ var storys = [
 	preload("res://src/levels/OfficeBottomDamaged.tscn"),
 	preload("res://src/levels/OfficeSideDamaged.tscn"),
 	preload("res://src/levels/OfficeTopDamaged.tscn")
+]
+var props = [
+	preload("res://src/levels/Cactus.tscn"),
+	preload("res://src/levels/OfficePlant.tscn"),
+	preload("res://src/levels/StandingDeskHigh.tscn"),
+	preload("res://src/levels/StandingDeskHighEmpty.tscn"),
+	preload("res://src/levels/StandingDeskLow.tscn"),
+	preload("res://src/levels/StandingDeskLowEmpty.tscn"),
 ]
 var collectables = []
 
@@ -66,6 +75,22 @@ func generate_collectable():
 	c.sprite = rng.randi() % collectable_count[r]
 	return c
 
+func generate_prop():
+	var c = props[randi() % len(props)].instance()
+	return c
+
+func move_prop_randomly(prop):
+	var r = rng.randi() % 3
+	if r == 0:
+		prop.transform.origin.x += BUILDING_WIDTH / 4
+		prop.transform.origin.z -= BUILDING_WIDTH / 4
+	elif r == 1:
+		prop.transform.origin.x += BUILDING_WIDTH / 4
+		prop.transform.origin.z += BUILDING_WIDTH / 4
+	else:
+		prop.transform.origin.x -= BUILDING_WIDTH / 4
+		prop.transform.origin.z += BUILDING_WIDTH / 4
+	return prop
 
 func generate_building_procedural(create_collectable):
 	# stack `height` storys together, each one rotated separately
@@ -81,12 +106,17 @@ func generate_building_procedural(create_collectable):
 	inst = stairs_entrance.instance()
 	inst.transform.origin.y = FUNDAMENT_HEIGHT
 	n.add_child(inst)
+	var p = generate_prop()
+	p.transform.origin.y = FUNDAMENT_HEIGHT
+	p = move_prop_randomly(p)
+	n.add_child(p)
 	var height = rng.randi() % 15 + 3
+	
 	if create_collectable:
 		var c = generate_collectable()
 		n.add_child(c)
 		c.transform.origin.y = 10 + STORY_HEIGHT * (rng.randi() % height)
-	
+		
 	var current_height = STORY_HEIGHT + FUNDAMENT_HEIGHT
 	for s in range(height):
 		var sr = storys[randi() % len(storys)].instance()
@@ -97,6 +127,13 @@ func generate_building_procedural(create_collectable):
 		wd = apply_random_rotation(wd)
 		n.add_child(wd)
 		wd.transform.origin.y = current_height
+		
+		p = generate_prop()
+		p = apply_random_rotation(p)
+		p.transform.origin.y = current_height
+		p = move_prop_randomly(p)
+		n.add_child(p)
+		
 		if s < height:
 			var stairs_instance = stairs.instance()
 			n.add_child(stairs_instance)
