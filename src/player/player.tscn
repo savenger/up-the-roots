@@ -1,30 +1,39 @@
-[gd_scene load_steps=12 format=2]
+[gd_scene load_steps=15 format=2]
 
 [ext_resource path="res://src/player/player.gd" type="Script" id=1]
 [ext_resource path="res://src/player/camera_joint.gd" type="Script" id=2]
 [ext_resource path="res://src/player/Character.tscn" type="PackedScene" id=3]
+[ext_resource path="res://assets/sprite_guide.png" type="Texture" id=4]
 
 [sub_resource type="CapsuleShape" id=1]
 
 [sub_resource type="BoxShape" id=3]
 
-[sub_resource type="SpatialMaterial" id=4]
+[sub_resource type="SpatialMaterial" id=8]
+flags_transparent = true
 params_billboard_mode = 3
 particles_anim_h_frames = 1
 particles_anim_v_frames = 1
 particles_anim_loop = false
-albedo_color = Color( 0.490196, 0.941176, 0.266667, 1 )
-roughness = 0.1
-emission_enabled = true
-emission = Color( 0.513726, 1, 0.415686, 1 )
-emission_energy = 1.0
-emission_operator = 0
-emission_on_uv2 = false
+albedo_color = Color( 0.117647, 0.843137, 0.243137, 0.294118 )
+albedo_texture = ExtResource( 4 )
 
-[sub_resource type="SphereMesh" id=5]
-material = SubResource( 4 )
-radius = 0.1
-height = 0.2
+[sub_resource type="QuadMesh" id=9]
+material = SubResource( 8 )
+size = Vector2( 0.5, 0.5 )
+
+[sub_resource type="SpatialMaterial" id=10]
+flags_transparent = true
+params_billboard_mode = 3
+particles_anim_h_frames = 1
+particles_anim_v_frames = 1
+particles_anim_loop = false
+albedo_color = Color( 0.254902, 0.482353, 0.545098, 0.392157 )
+albedo_texture = ExtResource( 4 )
+
+[sub_resource type="QuadMesh" id=11]
+material = SubResource( 10 )
+size = Vector2( 0.25, 0.25 )
 
 [sub_resource type="SpatialMaterial" id=6]
 albedo_color = Color( 0.54902, 0.517647, 1, 1 )
@@ -39,15 +48,14 @@ material = SubResource( 6 )
 radius = 0.02
 height = 0.04
 
-[sub_resource type="SpatialMaterial" id=9]
-albedo_color = Color( 0.635294, 0.745098, 0.662745, 1 )
-metallic = 0.32
-metallic_specular = 0.37
+[sub_resource type="SpatialMaterial" id=12]
+flags_transparent = true
+params_billboard_mode = 1
+albedo_texture = ExtResource( 4 )
 
-[sub_resource type="SphereMesh" id=8]
-material = SubResource( 9 )
-radius = 0.8
-height = 1.6
+[sub_resource type="QuadMesh" id=13]
+material = SubResource( 12 )
+size = Vector2( 2, 2 )
 
 [node name="Player" type="KinematicBody"]
 script = ExtResource( 1 )
@@ -84,33 +92,44 @@ transform = Transform( 0.65, 0, 0, 0, 0.65, 0, 0, 0, 0.65, 0, -1.229, 0 )
 [node name="Compass" type="Spatial" parent="."]
 
 [node name="CompassParticles" type="CPUParticles" parent="Compass"]
-transform = Transform( -1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 0, 0 )
-emitting = false
+transform = Transform( -1, -8.74228e-08, 3.82137e-15, 0, -4.37114e-08, -1, 8.74228e-08, -1, 4.37114e-08, 0, 0.00976515, 0 )
 amount = 20
+lifetime = 4.0
 randomness = 1.0
-mesh = SubResource( 5 )
-emission_shape = 2
-emission_box_extents = Vector3( 1, 1, 1 )
-direction = Vector3( 0, 0, 0 )
+lifetime_randomness = 1.0
+mesh = SubResource( 9 )
+emission_shape = 1
+emission_sphere_radius = 0.5
+direction = Vector3( 0, 1, 0 )
 spread = 0.0
 flatness = 0.54
 gravity = Vector3( 0, 0, 0 )
-initial_velocity = 5.0
-anim_speed = 2.0
+initial_velocity = 2.0
+initial_velocity_random = 1.0
+scale_amount_random = 1.0
+hue_variation = 1.0
 anim_speed_random = 0.39
 anim_offset = 0.56
 anim_offset_random = 0.92
 
 [node name="GlideParticles" type="CPUParticles" parent="."]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.847803, 0 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1.24763, 0 )
 amount = 100
 lifetime = 0.82
 explosiveness = 0.23
 randomness = 0.2
 lifetime_randomness = 0.26
-mesh = SubResource( 7 )
-emission_shape = 1
-emission_sphere_radius = 1.0
+mesh = SubResource( 11 )
+emission_shape = 2
+emission_box_extents = Vector3( 0.5, 0, 0.5 )
+angular_velocity = 198.17
+angular_velocity_random = 1.0
+radial_accel = -3.67
+radial_accel_random = 0.62
+tangential_accel = 7.34
+tangential_accel_random = 1.0
+scale_amount_random = 0.25
+hue_variation = 0.17
 
 [node name="CollectionParticles" type="CPUParticles" parent="."]
 emitting = false
@@ -128,7 +147,7 @@ scale_amount_random = 0.61
 
 [node name="ClimbModel" type="MeshInstance" parent="."]
 visible = false
-mesh = SubResource( 8 )
+mesh = SubResource( 13 )
 
 [connection signal="body_entered" from="Sphere" to="." method="_on_Sphere_body_entered"]
 [connection signal="body_exited" from="Sphere" to="." method="_on_Sphere_body_exited"]
